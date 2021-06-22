@@ -10,6 +10,10 @@
       <router-link to="/login">Log In</router-link>
       |
       <router-link to="/logout">Log Out</router-link>
+      |
+      <router-link to="/users">Users</router-link>
+      |
+      <router-link to="/friends">My friends</router-link>
     </div>
     <router-view />
   </div>

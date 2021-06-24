@@ -1,11 +1,35 @@
 <template>
   <div class="friends-index">
     <h2>My Friends</h2>
-    <div v-for="friend in friends" v-bind:key="friend.id">
-      <img :src="friend.image" alt="" />
-      <p>{{ friend.username }}</p>
+    <div v-for="friendship in friendships" v-bind:key="friendship.recipient.id">
+      <div v-if="friendship.confirmed">
+        <!-- $parent.getUserId() still not working - currently displaying 'self' as friend -->
+        <div v-if="friendship.sender.id == $parent.getUserId()">
+          <img :src="friendship.recipient.image" alt="" />
+          <p>{{ friendship.recipient.username }}</p>
+        </div>
+        <div v-else>
+          <img :src="friendship.sender.image" alt="" />
+          <p>{{ friendship.sender.username }}</p>
+        </div>
+      </div>
+      <br />
     </div>
     <h2>Pending friendships</h2>
+    <div v-for="friendship in friendships" v-bind:key="friendship.id">
+      <div v-if="!friendship.confirmed">
+        <div v-if="friendship.sender.id == $parent.getUserId()">
+          <img :src="friendship.recipient.image" alt="" />
+          <p>{{ friendship.recipient.username }}</p>
+        </div>
+        <div v-else>
+          <img :src="friendship.sender.image" alt="" />
+          <p>{{ friendship.sender.username }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div></div>
   </div>
 </template>
 
@@ -15,12 +39,12 @@ import axios from "axios";
 export default {
   data: function () {
     return {
-      friends: [],
+      friendships: [],
     };
   },
   created: function () {
     axios.get("/friendships").then((response) => {
-      this.friends = response.data;
+      this.friendships = response.data;
       console.log(response.data);
     });
   },

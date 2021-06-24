@@ -5,13 +5,23 @@
       <img :src="user.image" alt="User image" />
       <h2>{{ user.username }}</h2>
       <p>{{ user.name }}</p>
-      <!-- These two buttons should only appear for current user -->
+
+      <!-- Will show edit and delete buttons only if user is viewing their own profile -->
+      <!-- Currently not working, getUserId() is returning null -->
+      <!-- <span v-if="$parent.getUserId() == user.id"> -->
       <button v-on:click="showEditUser">Edit user</button>
       <button v-on:click="destroyUser">Delete Profile</button>
+      <!-- </span> -->
     </div>
     <!-- When user enters show page, automatically, it is NOT in 'editMode'. Page will display user information -->
     <div v-else>
       <h2>Edit Profile</h2>
+      <!-- Error handling -->
+      <ul>
+        <li class="error" v-for="error in errors" v-bind:key="error">
+          {{ error }}
+        </li>
+      </ul>
       <form v-on:submit.prevent="editUser()">
         <label>
           Username:
@@ -35,23 +45,22 @@
         <br />
         <input type="submit" value="Save Changes" />
         <button v-on:click="editMode = false">Cancel</button>
-        <ul>
-          <li v-for="error in errors" v-bind:key="error.id">{{ error }}</li>
-        </ul>
       </form>
     </div>
 
     <!-- This section requires conditional logic -->
-    <div>
-      <!-- Current user and friends may view suggestions -->
+    <!-- Current user and friends may view suggestions -->
+    <div v-if="$parent.getUserId() == user.id">
+      <!--  -->
       <p>Movie Suggestions</p>
       <div v-for="suggestion in suggestions" v-bind:key="suggestion.id">
         <img :src="suggestion.movie.Poster" alt="movie poster" />
         <p>Suggested by: {{ suggestion.sender.username }} | Watched Status: {{ suggestion.watched }}</p>
       </div>
     </div>
-    <div class="friend-list">
-      <!-- Only current user may view friends -->
+
+    <!-- Only current user may view friends -->
+    <div class="friend-list" v-if="$parent.getUserId() == user.id">
       <p>Friend list</p>
       <div v-for="friend in friends" v-bind:key="friend.id">
         <img class="friend-profile" :src="friend.image" alt="" />
@@ -68,6 +77,10 @@
 
 .friend-list {
   border-top: 2px solid black;
+}
+
+.error {
+  color: red;
 }
 </style>
 

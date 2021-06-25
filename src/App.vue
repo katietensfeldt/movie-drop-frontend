@@ -52,8 +52,7 @@ export default {
       return localStorage.getItem("jwt");
     },
     getUserId: function () {
-      console.log(localStorage.getItem("user_id"));
-      return localStorage.getItem("user_id");
+      return localStorage.user_id;
     },
   },
 };

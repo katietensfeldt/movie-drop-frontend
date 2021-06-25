@@ -7,11 +7,10 @@
       <p>{{ user.name }}</p>
 
       <!-- Will show edit and delete buttons only if user is viewing their own profile -->
-      <!-- Currently not working, getUserId() is returning null -->
-      <!-- <span v-if="$parent.getUserId() == user.id"> -->
-      <button v-on:click="showEditUser">Edit user</button>
-      <button v-on:click="destroyUser">Delete Profile</button>
-      <!-- </span> -->
+      <span v-if="$parent.getUserId() == user.id">
+        <button v-on:click="showEditUser">Edit user</button>
+        <button v-on:click="destroyUser">Delete Profile</button>
+      </span>
     </div>
     <!-- When user enters show page, automatically, it is NOT in 'editMode'. Page will display user information -->
     <div v-else>
@@ -48,11 +47,14 @@
       </form>
     </div>
 
-    <!-- This section requires conditional logic -->
+    <!-- section for adding friends/ removing friends -->
+    <div v-if="!friendIds.includes(Number($parent.getUserId())) || user.id != $parent.getUserId()">
+      <button v-on:click="addFriend()">Add Friend</button>
+    </div>
+
     <!-- Current user and friends may view suggestions -->
-    <div v-if="$parent.getUserId() == user.id">
-      <!--  -->
-      <p>Movie Suggestions</p>
+    <div v-if="user.id == $parent.getUserId() || friendIds.includes(Number($parent.getUserId()))">
+      <h3>Movie Suggestions</h3>
       <div v-for="suggestion in suggestions" v-bind:key="suggestion.id">
         <img :src="suggestion.movie.Poster" alt="movie poster" />
         <p>Suggested by: {{ suggestion.sender.username }} | Watched Status: {{ suggestion.watched }}</p>
@@ -60,8 +62,8 @@
     </div>
 
     <!-- Only current user may view friends -->
-    <div class="friend-list" v-if="$parent.getUserId() == user.id">
-      <p>Friend list</p>
+    <div v-if="user.id == $parent.getUserId()" class="friend-list">
+      <h3>Friend list</h3>
       <div v-for="friend in friends" v-bind:key="friend.id">
         <img class="friend-profile" :src="friend.image" alt="" />
         <p>{{ friend.username }}</p>
@@ -74,14 +76,6 @@
 .friend-profile {
   width: 50px;
 }
-
-.friend-list {
-  border-top: 2px solid black;
-}
-
-.error {
-  color: red;
-}
 </style>
 
 <script>
@@ -92,10 +86,12 @@ export default {
     return {
       user: {},
       friends: {},
+      friendIds: [],
       suggestions: {},
       editMode: false,
       editUserParams: {},
       errors: [],
+      newFriendParams: {},
     };
   },
   created: function () {
@@ -103,6 +99,9 @@ export default {
       this.user = response.data;
       this.friends = response.data.friends;
       this.suggestions = response.data.suggestions;
+      this.friends.forEach((friend) => {
+        this.friendIds.push(friend.id);
+      });
       console.log(this.user);
     });
   },
@@ -136,6 +135,17 @@ export default {
             this.errors = error.response.data.errors;
           });
       }
+    },
+    addFriend: function () {
+      this.newFriendParams.recipient_id = this.user.id;
+      axios
+        .post("/friendships", this.newFriendParams)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
     },
   },
 };

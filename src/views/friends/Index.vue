@@ -14,8 +14,8 @@
           <img :src="friendship.sender.image" alt="" />
           <p>{{ friendship.sender.username }}</p>
         </div>
+        <button v-on:click="unfriend(friendship.id)">Unfriend</button>
       </div>
-      <button v-on:click="unfriend(friendship.id)">Unfriend</button>
       <br />
     </div>
     <h2>Pending friendships</h2>

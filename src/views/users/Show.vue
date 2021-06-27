@@ -48,7 +48,7 @@
     </div>
 
     <!-- section for adding friends/ removing friends -->
-    <div v-if="!friendIds.includes(Number($parent.getUserId())) || user.id != $parent.getUserId()">
+    <div v-if="checkNotFriend()">
       <button v-on:click="addFriend()">Add Friend</button>
     </div>
 
@@ -142,10 +142,24 @@ export default {
         .post("/friendships", this.newFriendParams)
         .then((response) => {
           console.log(response.data);
+          this.$router.push("/friends");
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
         });
+    },
+    checkNotFriend: function () {
+      // if the user who's profile is being viewed does not have the current user as a friend
+      if (this.$parent.getUserId() == this.user.id) {
+        console.log("current user");
+        return false;
+      } else if (!this.friendIds.includes(Number(this.$parent.getUserId()))) {
+        console.log("not friends");
+        return true;
+      } else {
+        console.log("friends");
+        return false;
+      }
     },
   },
 };

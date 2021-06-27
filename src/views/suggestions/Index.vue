@@ -4,10 +4,15 @@
     <div v-for="suggestion in suggestions" v-bind:key="suggestion.id">
       <img :src="suggestion.movie.Poster" alt="movie poster" />
       <p>Suggested by: {{ suggestion.sender.username }}</p>
-      <button v-on:click="editSuggestion(suggestion.watched, suggestion.id)" v-if="!suggestion.watched">
+      <label>
+        Seen it?
+        <button v-on:click="editSuggestion(suggestion.watched, suggestion.id)" v-if="suggestion.watched">Yes</button>
+        <button v-on:click="editSuggestion(suggestion.watched, suggestion.id)" v-else>No</button>
+      </label>
+
+      <!-- <button v-on:click="editSuggestion(suggestion.watched, suggestion.id)" v-if="!suggestion.watched">
         Not seen
-      </button>
-      <button v-on:click="editSuggestion(suggestion.watched, suggestion.id)" v-else>Seen</button>
+      </button> -->
       <button v-on:click="deleteSuggestion(suggestion.id)">Delete Suggestion</button>
     </div>
   </div>
@@ -31,7 +36,7 @@ export default {
   },
   methods: {
     editSuggestion: function (status, id) {
-      this.editSuggestionParams.watched = !status;
+      this.toggleWatched(status);
       console.log(this.editSuggestionParams);
       axios
         .patch(`/suggestions/${id}`, this.editSuggestionParams)
@@ -42,6 +47,9 @@ export default {
           this.errors = error.response.data.errors;
           console.log(this.errors);
         });
+    },
+    toggleWatched: function (status) {
+      this.editSuggestionParams.watched = !status;
     },
     deleteSuggestion: function (id) {
       axios

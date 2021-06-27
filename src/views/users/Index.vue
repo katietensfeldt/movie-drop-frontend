@@ -1,41 +1,35 @@
 <template>
   <div class="users-index">
     <h1>This is the users Index</h1>
+    <input type="text" v-model="userSearch" placeholder="Find user by username" />
     <ul class="list">
-      <li class="card" v-for="user in users" v-bind:key="user.id">
-        <router-link :to="`/users/${user.id}`">
-          <img class="profile" :src="user.image" alt="profile picture" />
-        </router-link>
-        <h3>{{ user.username }}</h3>
-        <p>{{ user.name }}</p>
+      <li
+        class="card"
+        v-for="user in filterBy(orderBy(users, 'username'), userSearch, 'username')"
+        v-bind:key="user.id"
+      >
+        <div v-if="user.id != $parent.getUserId()">
+          <router-link :to="`/users/${user.id}`">
+            <img class="profile" :src="user.image" alt="profile picture" />
+          </router-link>
+          <h3>{{ user.username }}</h3>
+          <p>{{ user.name }}</p>
+        </div>
       </li>
     </ul>
   </div>
 </template>
 
-<style scoped>
-.profile {
-  width: 75px;
-}
-
-.card {
-  border: 1px solid black;
-  width: 45%;
-}
-
-.list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-</style>
-
 <script>
 import axios from "axios";
+import Vue2Filters from "vue2-filters";
+
 export default {
+  mixins: [Vue2Filters.mixin],
   data: function () {
     return {
       users: [],
+      userSearch: "",
     };
   },
   created: function () {

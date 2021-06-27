@@ -6,6 +6,8 @@
       <router-link to="/about">About</router-link>
       |
       <span v-if="isLoggedIn()">
+        <router-link :to="`/users/${getUserId()}`">My profile</router-link>
+        |
         <router-link to="/movies">Movies</router-link>
         |
         <router-link to="/users">Users</router-link>

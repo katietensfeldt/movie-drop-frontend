@@ -1,6 +1,9 @@
 <template>
   <div class="friends-index">
     <h2>My Friends</h2>
+    <ul>
+      <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+    </ul>
     <div v-for="friendship in friendships" v-bind:key="friendship.recipient.id">
       <div v-if="friendship.confirmed">
         <div v-if="friendship.sender.id == $parent.getUserId()">
@@ -12,6 +15,7 @@
           <p>{{ friendship.sender.username }}</p>
         </div>
       </div>
+      <button v-on:click="unfriend(friendship.id)">Unfriend</button>
       <br />
     </div>
     <h2>Pending friendships</h2>
@@ -58,13 +62,24 @@ export default {
       axios
         .patch(`/friendships/${friendshipId}`, this.editFriendshipParams)
         .then((response) => {
+          this.friendships.push(response.data);
           console.log(response);
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
           console.log(error.response.data.errors);
         });
-      console.log("changing friendship status");
+    },
+    unfriend: function (friendshipId) {
+      axios
+        .delete(`/friendships/${friendshipId}`)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
+      console.log(friendshipId);
     },
   },
 };

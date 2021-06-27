@@ -7,6 +7,9 @@ import Logout from "../views/Logout.vue";
 import UsersIndex from "../views/users/Index.vue";
 import UsersShow from "../views/users/Show.vue";
 import FriendsIndex from "../views/friends/Index.vue";
+import SuggestionsIndex from "../views/suggestions/Index.vue";
+import MoviesIndex from "../views/movies/Index.vue";
+import MoviesShow from "../views/movies/Show.vue";
 
 Vue.use(VueRouter);
 
@@ -53,6 +56,21 @@ const routes = [
     path: "/friends",
     name: "friends-index",
     component: FriendsIndex,
+  },
+  {
+    path: "/suggestions",
+    name: "suggestions-index",
+    component: SuggestionsIndex,
+  },
+  {
+    path: "/movies",
+    name: "movies-index",
+    component: MoviesIndex,
+  },
+  {
+    path: "/movies/:id",
+    name: "movies-show",
+    component: MoviesShow,
   },
 ];
 

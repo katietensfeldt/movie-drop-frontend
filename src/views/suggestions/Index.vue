@@ -6,13 +6,13 @@
       <p>Suggested by: {{ suggestion.sender.username }}</p>
       <label>
         Seen it?
-        <button v-on:click="editSuggestion(suggestion.watched, suggestion.id)" v-if="suggestion.watched">Yes</button>
-        <button v-on:click="editSuggestion(suggestion.watched, suggestion.id)" v-else>No</button>
+        <div v-if="suggestion.watched">
+          <button v-on:click="editSuggestion(suggestion.watched, suggestion.id)">Yes</button>
+        </div>
+        <div v-else-if="!suggestion.watched">
+          <button v-on:click="editSuggestion(suggestion.watched, suggestion.id)">No</button>
+        </div>
       </label>
-
-      <!-- <button v-on:click="editSuggestion(suggestion.watched, suggestion.id)" v-if="!suggestion.watched">
-        Not seen
-      </button> -->
       <button v-on:click="deleteSuggestion(suggestion.id)">Delete Suggestion</button>
     </div>
   </div>
@@ -25,7 +25,7 @@ export default {
   data: function () {
     return {
       suggestions: [],
-      editSuggestionParams: { watched: "" },
+      editSuggestionParams: {},
       errors: [],
     };
   },
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     editSuggestion: function (status, id) {
-      this.toggleWatched(status);
+      this.editSuggestionParams.watched = this.toggleWatched(status);
       console.log(this.editSuggestionParams);
       axios
         .patch(`/suggestions/${id}`, this.editSuggestionParams)
@@ -49,12 +49,18 @@ export default {
         });
     },
     toggleWatched: function (status) {
-      this.editSuggestionParams.watched = !status;
+      return !status;
     },
     deleteSuggestion: function (id) {
       axios
         .delete(`/suggestions/${id}`)
         .then((response) => {
+          for (var i = 0; i < this.suggestions.length; i++) {
+            if (this.suggestions[i].id === id) {
+              this.suggestions.splice(i, 1);
+              i--;
+            }
+          }
           console.log(response.data);
         })
         .catch((error) => {

@@ -3,7 +3,7 @@
     <h2>Movies</h2>
     <div>
       <form v-on:submit.prevent="findMovie()">
-        <input type="text" v-model="search" />
+        <input type="text" v-model="search" placeholder="Movie title..." />
         <input type="submit" v-on:click="findMovie" value="Search" />
       </form>
     </div>

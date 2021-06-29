@@ -47,8 +47,12 @@
       </form>
     </div>
 
+    <div v-if="pending">
+      <p>Friend request pending</p>
+    </div>
+
     <!-- section for adding friends/ removing friends -->
-    <div v-if="checkNotFriend()">
+    <div v-else-if="isFriend()">
       <button v-on:click="addFriend()">Add Friend</button>
     </div>
 
@@ -86,6 +90,7 @@ export default {
     return {
       user: {},
       friends: {},
+      pending: false,
       friendIds: [],
       suggestions: {},
       editMode: false,
@@ -102,33 +107,29 @@ export default {
       this.friends.forEach((friend) => {
         this.friendIds.push(friend.id);
       });
-      console.log(this.user);
+      this.isFriendshipPending();
     });
   },
   methods: {
     showEditUser: function () {
       this.editMode = true;
       this.editUserParams = this.user;
-      console.log(this.editMode);
     },
     editUser: function () {
       axios
         .patch(`/users/${this.$route.params.id}`, this.editUserParams)
-        .then((response) => {
-          console.log(response.data);
+        .then(() => {
           this.editMode = false;
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
-          console.log(error.response.data.errors);
         });
     },
     destroyUser: function () {
       if (confirm("Are you sure you want to delete your profile? This action cannot be reversed.")) {
         axios
           .delete(`/users/${this.$route.params.id}`)
-          .then((response) => {
-            console.log(response.data);
+          .then(() => {
             this.$router.push("/logout");
           })
           .catch((error) => {
@@ -140,24 +141,33 @@ export default {
       this.newFriendParams.recipient_id = this.user.id;
       axios
         .post("/friendships", this.newFriendParams)
-        .then((response) => {
-          console.log(response.data);
+        .then(() => {
           this.$router.push("/friends");
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
         });
     },
-    checkNotFriend: function () {
+    isFriendshipPending: function () {
+      axios.get("/friendships").then((response) => {
+        response.data.forEach((friendship) => {
+          if (!friendship.confirmed) {
+            if (this.user.id != this.$parent.getUserId()) {
+              if (friendship.recipient.id == this.user.id || friendship.sender.id == this.user.id) {
+                this.pending = true;
+              }
+            }
+          }
+        });
+      });
+    },
+    isFriend: function () {
       // if the user who's profile is being viewed does not have the current user as a friend
       if (this.$parent.getUserId() == this.user.id) {
-        console.log("current user");
         return false;
       } else if (!this.friendIds.includes(Number(this.$parent.getUserId()))) {
-        console.log("not friends");
         return true;
       } else {
-        console.log("friends");
         return false;
       }
     },

@@ -1,7 +1,19 @@
 <template>
   <div class="suggestions-index">
     <h2>My movie suggestions</h2>
-    <div v-for="suggestion in suggestions" v-bind:key="suggestion.id">
+    <label for="sort">Sort suggetsions by:</label>
+    <select v-model="sortAttribute" id="sort">
+      <option value="movie.Title">Movie Title</option>
+      <option value="sender.username">Sender</option>
+      <option value="watched">Watched</option>
+    </select>
+    <label for="order">In order:</label>
+    <select v-model="sortOrder" id="order">
+      <option :value="1">Ascending</option>
+      <option :value="-1">Descending</option>
+    </select>
+    <div v-for="suggestion in orderBy(suggestions, sortAttribute, sortOrder)" v-bind:key="suggestion.id">
+      <p>{{ suggestion.movie.Title }}</p>
       <img :src="suggestion.movie.Poster" alt="movie poster" />
       <p>Suggested by: {{ suggestion.sender.username }}</p>
       <label>
@@ -20,18 +32,23 @@
 
 <script>
 import axios from "axios";
+import Vue2Filters from "vue2-filters";
 
 export default {
+  mixins: [Vue2Filters.mixin],
   data: function () {
     return {
       suggestions: [],
       editSuggestionParams: {},
+      sortAttribute: "movie.Title",
+      sortOrder: 1,
       errors: [],
     };
   },
   created: function () {
     axios.get("/suggestions").then((response) => {
       this.suggestions = response.data;
+      console.log(response.data);
     });
   },
   methods: {
@@ -55,12 +72,11 @@ export default {
       axios
         .delete(`/suggestions/${id}`)
         .then((response) => {
-          for (var i = 0; i < this.suggestions.length; i++) {
-            if (this.suggestions[i].id === id) {
-              this.suggestions.splice(i, 1);
-              i--;
+          this.suggestions.forEach((suggestion) => {
+            if (suggestion.id == id) {
+              this.suggestions.splice(suggestion, 1);
             }
-          }
+          });
           console.log(response.data);
         })
         .catch((error) => {

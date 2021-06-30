@@ -11,7 +11,7 @@
       </div>
       <div>
         <label>Password:</label>
-        <input type="password" v-model="password" />
+        <input type="password" v-model="password" autocomplete="on" />
       </div>
       <input type="submit" value="Submit" />
     </form>

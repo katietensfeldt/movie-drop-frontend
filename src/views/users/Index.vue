@@ -1,6 +1,6 @@
 <template>
   <div class="users-index">
-    <h1>This is the users Index</h1>
+    <h1>Users</h1>
     <input type="text" v-model="userSearch" placeholder="Find user by username" />
     <ul class="list">
       <li

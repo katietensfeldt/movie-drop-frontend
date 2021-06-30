@@ -72,12 +72,11 @@ export default {
         .patch(`/friendships/${friendshipId}`, this.editFriendshipParams)
         .then((response) => {
           this.approvedFriendships.push(response.data);
-          for (var i = 0; i < this.pendingFriendships.length; i++) {
-            if (this.pendingFriendships[i].id == friendshipId) {
-              this.pendingFriendships.splice(i, 1);
-              i--;
+          this.pendingFriendships.forEach((friendship) => {
+            if (friendship.id == friendshipId) {
+              this.pendingFriendships.splice(friendship, 1);
             }
-          }
+          });
           console.log(response.data);
         })
         .catch((error) => {
@@ -90,18 +89,16 @@ export default {
         axios
           .delete(`/friendships/${friendshipId}`)
           .then((response) => {
-            for (var k = 0; k < this.approvedFriendships.length; k++) {
-              if (this.approvedFriendships[k].id == friendshipId) {
-                this.approvedFriendships.splice(k, 1);
-                k--;
+            this.approvedFriendships.forEach((friendship) => {
+              if (friendship.id == friendshipId) {
+                this.approvedFriendships.splice(friendship, 1);
               }
-            }
-            for (var j = 0; j < this.pendingFriendships.length; j++) {
-              if (this.pendingFriendships[j].id == friendshipId) {
-                this.pendingFriendships.splice(j, 1);
-                j--;
+            });
+            this.pendingFriendships.forEach((friendship) => {
+              if (friendship.id == friendshipId) {
+                this.pendingFriendships.splice(friendship, 1);
               }
-            }
+            });
             console.log(response.data);
           })
           .catch((error) => {

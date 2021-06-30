@@ -61,7 +61,7 @@
       <h3>Movie Suggestions</h3>
       <div v-for="suggestion in suggestions" v-bind:key="suggestion.id">
         <img :src="suggestion.movie.Poster" alt="movie poster" />
-        <p>Suggested by: {{ suggestion.sender.username }} | Watched Status: {{ suggestion.watched }}</p>
+        <p>Suggested by: {{ suggestion.sender.username }}</p>
       </div>
     </div>
 

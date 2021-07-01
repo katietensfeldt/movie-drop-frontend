@@ -12,22 +12,18 @@
       <option :value="1">Ascending</option>
       <option :value="-1">Descending</option>
     </select>
-    <div v-for="suggestion in orderBy(editSuggestionParams, sortAttribute, sortOrder)" v-bind:key="suggestion.id">
+    <div v-for="suggestion in orderBy(suggestions, sortAttribute, sortOrder)" v-bind:key="suggestion.id">
       <img :src="suggestion.movie.Poster" alt="movie poster" />
       <p>Suggested by: {{ suggestion.sender.username }}</p>
 
       <label>
-        Watched
-        <input
-          type="checkbox"
-          v-model="editSuggestionParams.watched"
-          :true-value="true"
-          :false-value="false"
-          v-on:click="editSuggestion(suggestion.id)"
-        />
+        Watched:
+        <input type="checkbox" id="checkbox" v-model="suggestion.watched" v-on:change="editSuggestion(suggestion)" />
+        {{ suggestion.watched }}
       </label>
+
       <br />
-      <button v-on:click="deleteSuggestion(suggestion.id)">Delete Suggestion</button>
+      <button v-on:click="deleteSuggestion(suggestion)">Delete Suggestion</button>
     </div>
   </div>
 </template>
@@ -41,6 +37,7 @@ export default {
   data: function () {
     return {
       editSuggestionParams: {},
+      suggestions: {},
       sortAttribute: "movie.Title",
       sortOrder: 1,
       errors: [],
@@ -48,16 +45,14 @@ export default {
   },
   created: function () {
     axios.get("/suggestions").then((response) => {
-      this.editSuggestionParams = response.data;
-
+      this.suggestions = response.data;
       console.log(response.data);
     });
   },
   methods: {
-    editSuggestion: function (id) {
-      console.log(this.editSuggestionParams);
+    editSuggestion: function (suggestion) {
       axios
-        .patch(`/suggestions/${id}`, this.editSuggestionParams)
+        .patch(`/suggestions/${suggestion.id}`)
         .then((response) => {
           console.log(response.data);
         })
@@ -66,15 +61,12 @@ export default {
           console.log(this.errors);
         });
     },
-    deleteSuggestion: function (id) {
+    deleteSuggestion: function (suggestion) {
       axios
-        .delete(`/suggestions/${id}`)
+        .delete(`/suggestions/${suggestion.id}`)
         .then((response) => {
-          this.editSuggestionParams.forEach((suggestion) => {
-            if (suggestion.id == id) {
-              this.editSuggestionParams.splice(suggestion, 1);
-            }
-          });
+          var index = this.suggestions.indexOf(suggestion);
+          this.suggestions.splice(index, 1);
           console.log(response.data);
         })
         .catch((error) => {

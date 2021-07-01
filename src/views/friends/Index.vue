@@ -13,7 +13,7 @@
         <img :src="friendship.sender.image" alt="" />
         <p>{{ friendship.sender.username }}</p>
       </div>
-      <button v-on:click="deleteFriendship(friendship.id)">Unfriend</button>
+      <button v-on:click="unfriend(friendship)">Unfriend</button>
 
       <br />
     </div>
@@ -27,18 +27,17 @@
         <img :src="friendship.sender.image" alt="" />
         <p>{{ friendship.sender.username }}</p>
       </div>
-      <button v-if="friendship.recipient.id == $parent.getUserId()" v-on:click="approveFriendship(friendship.id)">
+      <button v-if="friendship.recipient.id == $parent.getUserId()" v-on:click="approveFriendship(friendship)">
         Approve
       </button>
       <p v-else>Request awaiting approval</p>
-      <button v-on:click="deleteFriendship(friendship.id)">Delete</button>
+      <button v-on:click="deleteRequest(friendship)">Delete</button>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-
 export default {
   data: function () {
     return {
@@ -66,17 +65,14 @@ export default {
         }
       });
     },
-    approveFriendship: function (friendshipId) {
+    approveFriendship: function (friendship) {
       this.editFriendshipParams.confirmed = true;
       axios
-        .patch(`/friendships/${friendshipId}`, this.editFriendshipParams)
+        .patch(`/friendships/${friendship.id}`, this.editFriendshipParams)
         .then((response) => {
           this.approvedFriendships.push(response.data);
-          this.pendingFriendships.forEach((friendship) => {
-            if (friendship.id == friendshipId) {
-              this.pendingFriendships.splice(friendship, 1);
-            }
-          });
+          var index = this.pendingFriendships.indexOf(friendship);
+          this.pendingFriendships.splice(index, 1);
           console.log(response.data);
         })
         .catch((error) => {
@@ -84,21 +80,27 @@ export default {
           console.log(error.response.data.errors);
         });
     },
-    deleteFriendship: function (friendshipId) {
+    deleteRequest: function (friendship) {
       if (confirm("Are you sure you want to proceed? This action cannot be reversed.")) {
         axios
-          .delete(`/friendships/${friendshipId}`)
+          .delete(`/friendships/${friendship.id}`)
           .then((response) => {
-            this.approvedFriendships.forEach((friendship) => {
-              if (friendship.id == friendshipId) {
-                this.approvedFriendships.splice(friendship, 1);
-              }
-            });
-            this.pendingFriendships.forEach((friendship) => {
-              if (friendship.id == friendshipId) {
-                this.pendingFriendships.splice(friendship, 1);
-              }
-            });
+            var index = this.pendingFriendships.indexOf(friendship);
+            this.pendingFriendships.splice(index, 1);
+            console.log(response.data);
+          })
+          .catch((error) => {
+            this.errors = error.response.data.errors;
+          });
+      }
+    },
+    unfriend: function (friendship) {
+      if (confirm("Are you sure you want to proceed? This action cannot be reversed.")) {
+        axios
+          .delete(`/friendships/${friendship.id}`)
+          .then((response) => {
+            var index = this.approvedFriendships.indexOf(friendship);
+            this.approvedFriendships.splice(index, 1);
             console.log(response.data);
           })
           .catch((error) => {

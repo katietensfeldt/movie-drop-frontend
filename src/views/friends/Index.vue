@@ -6,11 +6,15 @@
     </ul>
     <div v-for="friendship in approvedFriendships" v-bind:key="friendship.recipient.id">
       <div v-if="friendship.sender.id == $parent.getUserId()">
-        <img :src="friendship.recipient.image" alt="" />
+        <router-link :to="`/users/${friendship.recipient.id}`">
+          <img :src="friendship.recipient.image" alt="" />
+        </router-link>
         <p>{{ friendship.recipient.username }}</p>
       </div>
       <div v-else>
-        <img :src="friendship.sender.image" alt="" />
+        <router-link :to="`/users/${friendship.sender.id}`">
+          <img :src="friendship.sender.image" alt="" />
+        </router-link>
         <p>{{ friendship.sender.username }}</p>
       </div>
       <button v-on:click="unfriend(friendship)">Unfriend</button>
@@ -20,11 +24,15 @@
     <h2>Pending friendships</h2>
     <div v-for="friendship in pendingFriendships" v-bind:key="friendship.id">
       <div v-if="friendship.sender.id == $parent.getUserId()">
-        <img :src="friendship.recipient.image" alt="" />
+        <router-link :to="`/users/${friendship.recipient.id}`">
+          <img :src="friendship.recipient.image" alt="" />
+        </router-link>
         <p>{{ friendship.recipient.username }}</p>
       </div>
       <div v-else>
-        <img :src="friendship.sender.image" alt="" />
+        <router-link :to="`/users/${friendship.sender.id}`">
+          <img :src="friendship.sender.image" alt="" />
+        </router-link>
         <p>{{ friendship.sender.username }}</p>
       </div>
       <button v-if="friendship.recipient.id == $parent.getUserId()" v-on:click="approveFriendship(friendship)">
@@ -38,6 +46,7 @@
 
 <script>
 import axios from "axios";
+
 export default {
   data: function () {
     return {

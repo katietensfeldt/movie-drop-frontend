@@ -21,7 +21,7 @@
     <p>Released: {{ movie.Released }}</p>
     <p>Ratings from {{ movie.Ratings[0].Source }}: {{ movie.Ratings[0].Value }}</p>
     <p>
-      Plot
+      Plot:
       <br />
       {{ movie.Plot }}
     </p>
@@ -62,6 +62,7 @@ export default {
       axios
         .post("/suggestions", this.newSuggestionParams)
         .then((response) => {
+          this.$parent.flashMessage = `Suggestion sent to ${response.data.recipient.username}.`;
           console.log(response.data);
         })
         .catch((error) => {

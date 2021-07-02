@@ -13,7 +13,9 @@
       <option :value="-1">Descending</option>
     </select>
     <div v-for="suggestion in orderBy(suggestions, sortAttribute, sortOrder)" v-bind:key="suggestion.id">
-      <img :src="suggestion.movie.Poster" alt="movie poster" />
+      <router-link :to="`/movies/${suggestion.movie.imdbID}`">
+        <img :src="suggestion.movie.Poster" alt="movie poster" />
+      </router-link>
       <p>Suggested by: {{ suggestion.sender.username }}</p>
 
       <label>

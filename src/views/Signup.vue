@@ -25,11 +25,11 @@
       </div>
       <div class="form-group">
         <label>Password:</label>
-        <input type="password" class="form-control" v-model="newUserParams.password" />
+        <input type="password" class="form-control" autocomplete="new-password" v-model="newUserParams.password" />
       </div>
       <div class="form-group">
         <label>Password confirmation:</label>
-        <input type="password" class="form-control" v-model="newUserParams.password_confirmation" />
+        <input type="password" class="form-control" autocomplete="off" v-model="newUserParams.password_confirmation" />
       </div>
       <input type="submit" class="btn btn-primary" value="Submit" />
     </form>
@@ -52,6 +52,7 @@ export default {
         .post("/users", this.newUserParams)
         .then((response) => {
           console.log(response.data);
+          this.$parent.flashMessage = "Successfully signed up! Please log in to access your account.";
           this.$router.push("/login");
         })
         .catch((error) => {

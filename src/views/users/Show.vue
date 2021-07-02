@@ -76,12 +76,6 @@
   </div>
 </template>
 
-<style scoped>
-.friend-profile {
-  width: 50px;
-}
-</style>
-
 <script>
 import axios from "axios";
 
@@ -119,6 +113,7 @@ export default {
       axios
         .patch(`/users/${this.$route.params.id}`, this.editUserParams)
         .then(() => {
+          this.$parent.flashMessage = "Your details have been updated.";
           this.editMode = false;
         })
         .catch((error) => {
@@ -130,6 +125,7 @@ export default {
         axios
           .delete(`/users/${this.$route.params.id}`)
           .then(() => {
+            this.$parent.flashMessage = "Your account has been deleted.";
             this.$router.push("/logout");
           })
           .catch((error) => {
@@ -142,6 +138,7 @@ export default {
       axios
         .post("/friendships", this.newFriendParams)
         .then(() => {
+          this.$parent.flashMessage = "Friend request sent.";
           this.$router.push("/friends");
         })
         .catch((error) => {

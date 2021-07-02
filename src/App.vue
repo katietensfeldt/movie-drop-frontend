@@ -3,8 +3,6 @@
     <div id="nav">
       <router-link to="/">Home</router-link>
       |
-      <router-link to="/about">About</router-link>
-      |
       <span v-if="isLoggedIn()">
         <router-link :to="`/users/${getUserId()}`">My profile</router-link>
         |
@@ -23,6 +21,10 @@
         |
         <router-link to="/login">Log In</router-link>
       </span>
+    </div>
+    <div v-if="flashMessage">
+      {{ flashMessage }}
+      <button v-on:click="flashMessage = ''">Dismiss</button>
     </div>
     <router-view />
   </div>
@@ -53,6 +55,11 @@
 
 <script>
 export default {
+  data: function () {
+    return {
+      flashMessage: "",
+    };
+  },
   methods: {
     isLoggedIn: function () {
       return localStorage.getItem("jwt");

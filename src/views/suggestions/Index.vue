@@ -1,7 +1,7 @@
 <template>
   <div class="suggestions-index">
     <h2>My movie suggestions</h2>
-    <label for="sort">Sort suggetsions by:</label>
+    <label for="sort">Sort suggestions by:</label>
     <select v-model="sortAttribute" id="sort">
       <option value="movie.Title">Movie Title</option>
       <option value="sender.username">Sender</option>
@@ -21,7 +21,6 @@
       <label>
         Watched:
         <input type="checkbox" id="checkbox" v-model="suggestion.watched" v-on:change="editSuggestion(suggestion)" />
-        {{ suggestion.watched }}
       </label>
 
       <br />

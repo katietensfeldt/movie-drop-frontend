@@ -7,13 +7,13 @@
     <div v-for="friendship in approvedFriendships" v-bind:key="friendship.recipient.id">
       <div v-if="friendship.sender.id == $parent.getUserId()">
         <router-link :to="`/users/${friendship.recipient.id}`">
-          <img :src="friendship.recipient.image" alt="" />
+          <img :src="friendship.recipient.image" alt="Friend image" />
         </router-link>
         <p>{{ friendship.recipient.username }}</p>
       </div>
       <div v-else>
         <router-link :to="`/users/${friendship.sender.id}`">
-          <img :src="friendship.sender.image" alt="" />
+          <img :src="friendship.sender.image" alt="Friend image" />
         </router-link>
         <p>{{ friendship.sender.username }}</p>
       </div>
@@ -25,13 +25,13 @@
     <div v-for="friendship in pendingFriendships" v-bind:key="friendship.id">
       <div v-if="friendship.sender.id == $parent.getUserId()">
         <router-link :to="`/users/${friendship.recipient.id}`">
-          <img :src="friendship.recipient.image" alt="" />
+          <img :src="friendship.recipient.image" alt="Friend image" />
         </router-link>
         <p>{{ friendship.recipient.username }}</p>
       </div>
       <div v-else>
         <router-link :to="`/users/${friendship.sender.id}`">
-          <img :src="friendship.sender.image" alt="" />
+          <img :src="friendship.sender.image" alt="Friend image" />
         </router-link>
         <p>{{ friendship.sender.username }}</p>
       </div>

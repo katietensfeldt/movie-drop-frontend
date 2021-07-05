@@ -1,18 +1,19 @@
 <template>
   <div class="users-show">
-    <!-- If edit button is clicked, page enters in to 'editMode', which will display text boxes to edit information -->
+    <!-- MAIN USER INFO - viewable on all profile types -->
     <div v-if="!editMode">
       <img :src="user.image" alt="User image" />
       <h2>{{ user.username }}</h2>
       <p>{{ user.name }}</p>
 
-      <!-- Will show edit and delete buttons only if user is viewing their own profile -->
+      <!-- USER EDIT OR DELETE - current user only -->
       <span v-if="$parent.getUserId() == user.id">
         <button v-on:click="showEditUser">Edit user</button>
         <button v-on:click="destroyUser">Delete Profile</button>
       </span>
     </div>
-    <!-- When user enters show page, automatically, it is NOT in 'editMode'. Page will display user information -->
+
+    <!-- USER EDIT FORM -->
     <div v-else>
       <h2>Edit Profile</h2>
       <!-- Error handling -->
@@ -51,12 +52,12 @@
       <p>Friend request pending</p>
     </div>
 
-    <!-- section for adding friends/ removing friends -->
+    <!-- ADD FRIEND BUTTON - for non-friends only -->
     <div v-else-if="isFriend()">
       <button v-on:click="addFriend()">Add Friend</button>
     </div>
 
-    <!-- Current user and friends may view suggestions -->
+    <!-- USER'S MOVIE SUGGESTIONS - viewable on current user and friends pages -->
     <div v-if="user.id == $parent.getUserId() || friendIds.includes(Number($parent.getUserId()))">
       <h3>Movie Suggestions</h3>
       <div v-for="suggestion in suggestions" v-bind:key="suggestion.id">
@@ -65,7 +66,7 @@
       </div>
     </div>
 
-    <!-- Only current user may view friends -->
+    <!-- FRIENDS LIST - current user only -->
     <div v-if="user.id == $parent.getUserId()" class="friend-list">
       <h3>Friend list</h3>
       <div v-for="friend in friends" v-bind:key="friend.id">
@@ -139,7 +140,7 @@ export default {
         .post("/friendships", this.newFriendParams)
         .then(() => {
           this.$parent.flashMessage = "Friend request sent.";
-          this.$router.push("/friends");
+          this.$router.push("/users");
         })
         .catch((error) => {
           this.errors = error.response.data.errors;

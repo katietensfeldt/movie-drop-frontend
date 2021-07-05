@@ -8,7 +8,9 @@
       <label for="myFriends">Select a friend</label>
       <select v-model="newSuggestionParams.recipient_id" name="myFriends" id="myFriends">
         <option disabled value="">Please select one</option>
-        <option v-for="friend in friendsList" v-bind:key="friend.id" :value="friend.id">{{ friend.username }}</option>
+        <option v-for="friend in friendsList" v-bind:key="friend.id" :value="friend.id">
+          {{ friend.username }}
+        </option>
       </select>
       <button v-on:click="createSuggestion()">Send Suggestion</button>
       <button v-on:click="toggleFriendList()">Done</button>
@@ -68,7 +70,6 @@ export default {
         .catch((error) => {
           this.errors = error.response.data.errors;
         });
-      console.log("Suggestion");
     },
   },
 };

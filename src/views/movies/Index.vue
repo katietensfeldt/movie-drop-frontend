@@ -3,7 +3,7 @@
     <h2>Movies</h2>
     <div>
       <form v-on:submit.prevent="findMovie()">
-        <input type="text" v-model="search" placeholder="Movie title..." />
+        <input type="text" v-model="search" placeholder="Search by movie title..." />
         <input type="submit" v-on:click="findMovie" value="Search" />
       </form>
     </div>
@@ -15,12 +15,12 @@
             src="https://quantum-soft.net/images/75x50-1/http://s2.1pic.org/files/2019/04/16/d9c3dc1540830681331f.jpg"
             alt="Image not available"
           />
-          <img v-else :src="movie.Poster" :alt="movie.title" />
+          <img v-else :src="movie.Poster" :alt="`Poster for ${movie.title}`" />
         </router-link>
         <h3>{{ movie.Title }} ({{ movie.Year }})</h3>
       </div>
     </div>
-    <div v-else><p>Hmm... I can't find that movie. Please check spelling and try again.</p></div>
+    <div v-else><p>Hmm... I can't find that movie. Please check your spelling and try again.</p></div>
   </div>
 </template>
 

@@ -31,6 +31,10 @@
         <label>Password confirmation:</label>
         <input type="password" class="form-control" autocomplete="off" v-model="newUserParams.password_confirmation" />
       </div>
+      <div class="form-group">
+        <label>If you would like to receive notifications, please enter your phone number:</label>
+        <input type="text" class="form-control" v-model="newUserParams.phone_number" />
+      </div>
       <input type="submit" class="btn btn-primary" value="Submit" />
     </form>
   </div>

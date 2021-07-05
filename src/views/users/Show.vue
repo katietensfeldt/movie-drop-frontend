@@ -43,6 +43,16 @@
           <input type="text" v-model="editUserParams.email" />
         </label>
         <br />
+        <label>
+          Phone number:
+          <input type="text" v-model="editUserParams.phone_number" />
+          <br />
+          <small>
+            Your number will be used for notification purposes. If you do not wish to receive notifications, please
+            either remove, or do not include your phone number.
+          </small>
+        </label>
+        <br />
         <input type="submit" value="Save Changes" />
         <button v-on:click="editMode = false">Cancel</button>
       </form>
@@ -53,7 +63,7 @@
     </div>
 
     <!-- ADD FRIEND BUTTON - for non-friends only -->
-    <div v-else-if="isFriend()">
+    <div v-else-if="isNotFriend()">
       <button v-on:click="addFriend()">Add Friend</button>
     </div>
 
@@ -138,7 +148,8 @@ export default {
       this.newFriendParams.recipient_id = this.user.id;
       axios
         .post("/friendships", this.newFriendParams)
-        .then(() => {
+        .then((response) => {
+          console.log(response.data);
           this.$parent.flashMessage = "Friend request sent.";
           this.$router.push("/users");
         })
@@ -159,7 +170,7 @@ export default {
         });
       });
     },
-    isFriend: function () {
+    isNotFriend: function () {
       // if the user who's profile is being viewed does not have the current user as a friend
       if (this.$parent.getUserId() == this.user.id) {
         return false;

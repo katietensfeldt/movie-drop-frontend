@@ -32,7 +32,7 @@
       <div v-for="article in articles" v-bind:key="article.title">
         <a :href="article.url" target="_blank">
           <h4>{{ article.title }}</h4>
-          <h6>Published: {{ article.publishedAt }}</h6>
+          <h6>Published: {{ parsePublished(article.publishedAt) }}</h6>
           <p>Source: {{ article.source.name }} || Author: {{ article.author }}</p>
           <img :src="article.urlToImage" alt="Article image" />
         </a>
@@ -45,6 +45,7 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
 
 export default {
   data: function () {
@@ -72,6 +73,10 @@ export default {
           this.movies = response.data.Search;
           console.log(response.data.Search);
         });
+    },
+    parsePublished: function (datetime) {
+      var newTime = moment(datetime).format("LLL");
+      return newTime;
     },
   },
 };

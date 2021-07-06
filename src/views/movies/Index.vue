@@ -1,6 +1,6 @@
 <template>
   <div class="movies-index">
-    <h2>Movies</h2>
+    <h2>Search for a Movie</h2>
     <div>
       <form v-on:submit.prevent="findMovie()">
         <input type="text" v-model="search" placeholder="Search by movie title..." />
@@ -21,6 +21,19 @@
       </div>
     </div>
     <div v-else><p>Hmm... I can't find that movie. Please check your spelling and try again.</p></div>
+    <div v-if="!search">
+      <h3>Movie News Today</h3>
+      <div v-for="article in articles" v-bind:key="article.title">
+        <a :href="article.url" target="_blank">
+          <h4>{{ article.title }}</h4>
+          <h6>Published: {{ article.publishedAt }}</h6>
+          <p>Source: {{ article.source.name }} || Author: {{ article.author }}</p>
+          <img :src="article.urlToImage" alt="Article image" />
+        </a>
+
+        <p>{{ article.description }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -32,7 +45,14 @@ export default {
     return {
       movies: [],
       search: "",
+      articles: [],
     };
+  },
+  created: function () {
+    axios.get("/movies_news").then((response) => {
+      this.articles = response.data;
+      console.log(response.data);
+    });
   },
   methods: {
     findMovie: function () {

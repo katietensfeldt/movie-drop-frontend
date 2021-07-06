@@ -1,9 +1,12 @@
 <template>
   <div class="friends-index">
     <h2>My Friends</h2>
+    <!-- Error handling if friendships cannot be changed or deleted -->
     <ul>
       <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
     </ul>
+
+    <!-- Friends -->
     <div v-for="friendship in approvedFriendships" v-bind:key="friendship.recipient.id">
       <div v-if="friendship.sender.id == $parent.getUserId()">
         <router-link :to="`/users/${friendship.recipient.id}`">
@@ -21,6 +24,8 @@
 
       <br />
     </div>
+
+    <!-- Pending friends -->
     <h2>Pending friendships</h2>
     <div v-for="friendship in pendingFriendships" v-bind:key="friendship.id">
       <div v-if="friendship.sender.id == $parent.getUserId()">

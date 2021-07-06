@@ -3,8 +3,8 @@
     <h2>{{ movie.Title }} ({{ movie.Year }})</h2>
     <img :src="movie.Poster" alt="Movie poster" />
     <br />
-    <button v-on:click="showFriends()">Suggest to friend</button>
-    <div v-if="showList">
+    <button v-if="!showList" v-on:click="showFriends()">Suggest to friend</button>
+    <div v-else>
       <label for="myFriends">Select a friend</label>
       <select v-model="newSuggestionParams.recipient_id" name="myFriends" id="myFriends">
         <option disabled value="">Please select one</option>

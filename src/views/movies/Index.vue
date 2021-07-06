@@ -7,6 +7,8 @@
         <input type="submit" v-on:click="findMovie" value="Search" />
       </form>
     </div>
+
+    <!-- Movie search results -->
     <div v-if="movies">
       <div v-for="movie in movies" v-bind:key="movie.imdbID">
         <router-link :to="`/movies/${movie.imdbID}`">
@@ -20,7 +22,11 @@
         <h3>{{ movie.Title }} ({{ movie.Year }})</h3>
       </div>
     </div>
+
+    <!-- Error handling if movie title can't be found -->
     <div v-else><p>Hmm... I can't find that movie. Please check your spelling and try again.</p></div>
+
+    <!-- Displays the latest movies news articles if the user has not started to search for a movie -->
     <div v-if="!search">
       <h3>Movie News Today</h3>
       <div v-for="article in articles" v-bind:key="article.title">

@@ -16,6 +16,7 @@
       <router-link :to="`/movies/${suggestion.movie.imdbID}`">
         <img :src="suggestion.movie.Poster" alt="movie poster" />
       </router-link>
+      <h4>{{ suggestion.movie.Title }} ({{ suggestion.movie.Year }})</h4>
       <p>Suggested by: {{ suggestion.sender.username }}</p>
 
       <label>

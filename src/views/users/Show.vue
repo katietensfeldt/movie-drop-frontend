@@ -70,6 +70,7 @@
     <!-- USER'S MOVIE SUGGESTIONS - viewable on current user and friends pages -->
     <div v-if="user.id == $parent.getUserId() || friendIds.includes(Number($parent.getUserId()))">
       <h3>Movie Suggestions</h3>
+      <router-link v-if="$parent.getUserId() == user.id" :to="'/suggestions'">Manage suggestions</router-link>
       <div v-for="suggestion in suggestions" v-bind:key="suggestion.id">
         <img :src="suggestion.movie.Poster" alt="movie poster" />
         <p>Suggested by: {{ suggestion.sender.username }}</p>
@@ -79,6 +80,7 @@
     <!-- FRIENDS LIST - current user only -->
     <div v-if="user.id == $parent.getUserId()" class="friend-list">
       <h3>Friend list</h3>
+      <router-link :to="'/friends'">Manage friend list</router-link>
       <div v-for="friend in friends" v-bind:key="friend.id">
         <img class="friend-profile" :src="friend.image" alt="" />
         <p>{{ friend.username }}</p>

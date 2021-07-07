@@ -41,10 +41,10 @@
         <p>{{ friendship.sender.username }}</p>
       </div>
       <button v-if="friendship.recipient.id == $parent.getUserId()" v-on:click="approveFriendship(friendship)">
-        Approve
+        Accept
       </button>
       <p v-else>Request awaiting approval</p>
-      <button v-on:click="deleteRequest(friendship)">Delete</button>
+      <button v-on:click="deleteRequest(friendship)">Decline</button>
     </div>
   </div>
 </template>

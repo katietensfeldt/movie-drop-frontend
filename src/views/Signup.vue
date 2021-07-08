@@ -60,7 +60,6 @@ export default {
     setFile: function (event) {
       if (event.target.files.length > 0) {
         this.image = event.target.files[0];
-        console.log(this.image);
       }
     },
     submit: function () {

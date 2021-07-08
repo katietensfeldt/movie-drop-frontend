@@ -6,7 +6,7 @@
       <h2>{{ user.username }}</h2>
       <p>{{ user.name }}</p>
 
-      <!-- USER EDIT OR DELETE - current user only -->
+      <!-- USER EDIT OR DELETE BUTTONS - current user only -->
       <span v-if="$parent.getUserId() == user.id">
         <button v-on:click="showEditUser">Edit user</button>
         <button v-on:click="destroyUser">Delete Profile</button>
@@ -25,12 +25,12 @@
       <form v-on:submit.prevent="editUser()">
         <label>
           Username:
-          <input type="text" v-model="editUserParams.username" />
+          <input type="text" v-model="user.username" />
         </label>
         <br />
         <label>
           Name:
-          <input type="text" v-model="editUserParams.name" />
+          <input type="text" v-model="user.name" />
         </label>
         <br />
         <label>
@@ -40,12 +40,12 @@
         <br />
         <label>
           Email address:
-          <input type="text" v-model="editUserParams.email" />
+          <input type="text" v-model="user.email" />
         </label>
         <br />
         <label>
           Phone number:
-          <input type="text" v-model="editUserParams.phone_number" />
+          <input type="text" v-model="user.phone_number" />
           <br />
           <small>
             Your number will be used for notification purposes. If you do not wish to receive notifications, please
@@ -124,24 +124,25 @@ export default {
     },
     setFile: function (event) {
       if (event.target.files) {
-        this.editUserParams.image = event.target.files[0];
+        this.user.image = event.target.files[0];
       }
     },
     editUser: function () {
       var formData = new FormData();
-      formData.append("name", this.editUserParams.name);
-      formData.append("username", this.editUserParams.username);
-      formData.append("email", this.editUserParams.email);
-      if (this.editUserParams.image) {
-        formData.append("image", this.editUserParams.image);
+      formData.append("name", this.user.name);
+      formData.append("username", this.user.username);
+      formData.append("email", this.user.email);
+      if (this.user.image) {
+        formData.append("image", this.user.image);
       }
-      if (this.editUserParams.phone_number) {
-        formData.append("phone_number", this.editUserParams.phone_number);
+      if (this.user.phone_number) {
+        formData.append("phone_number", this.user.phone_number);
       }
 
       axios
         .patch(`/users/${this.$route.params.id}`, formData)
-        .then(() => {
+        .then((response) => {
+          this.user.image = response.data.image;
           this.$parent.flashMessage = "Your details have been updated.";
           this.editMode = false;
         })

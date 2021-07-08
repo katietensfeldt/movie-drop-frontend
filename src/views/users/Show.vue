@@ -35,7 +35,7 @@
         <br />
         <label>
           Profile Picture:
-          <input type="text" v-model="editUserParams.image" />
+          <input type="file" v-on:change="setFile($event)" ref="fileInput" />
         </label>
         <br />
         <label>
@@ -122,9 +122,25 @@ export default {
       this.editMode = true;
       this.editUserParams = this.user;
     },
+    setFile: function (event) {
+      if (event.target.files) {
+        this.editUserParams.image = event.target.files[0];
+      }
+    },
     editUser: function () {
+      var formData = new FormData();
+      formData.append("name", this.editUserParams.name);
+      formData.append("username", this.editUserParams.username);
+      formData.append("email", this.editUserParams.email);
+      if (this.editUserParams.image) {
+        formData.append("image", this.editUserParams.image);
+      }
+      if (this.editUserParams.phone_number) {
+        formData.append("phone_number", this.editUserParams.phone_number);
+      }
+
       axios
-        .patch(`/users/${this.$route.params.id}`, this.editUserParams)
+        .patch(`/users/${this.$route.params.id}`, formData)
         .then(() => {
           this.$parent.flashMessage = "Your details have been updated.";
           this.editMode = false;

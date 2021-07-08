@@ -3,7 +3,6 @@
     <h2>{{ movie.Title }} ({{ movie.Year }})</h2>
 
     <img :src="movie.Poster" alt="Movie poster" />
-    <iframe width="420" height="315" :src="`https://www.youtube.com/embed/${movieTrailerId}`"></iframe>
     <br />
     <button v-if="!showList" v-on:click="showFriends()">Suggest to friend</button>
     <div v-else>
@@ -17,6 +16,9 @@
       <button v-on:click="createSuggestion()">Send Suggestion</button>
       <button v-on:click="toggleFriendList()">Done</button>
     </div>
+    <br />
+    <iframe width="420" height="315" :src="movieTrailer"></iframe>
+    <br />
     <p>Genres: {{ movie.Genre }}</p>
     <p>Rated: {{ movie.Rated }}</p>
     <p>Runtime: {{ movie.Runtime }}</p>
@@ -40,7 +42,7 @@ export default {
   data: function () {
     return {
       movie: {},
-      movieTrailerId: "",
+      movieTrailer: "",
       friendsList: [],
       showList: false,
       newSuggestionParams: {},
@@ -77,10 +79,7 @@ export default {
     },
     getTrailer: function () {
       movieTrailer(this.movie.Title, this.movie.Year).then((response) => {
-        console.log(response);
-        var movieid = response.replace("https://www.youtube.com/watch?v=", "");
-        this.movieTrailerId = movieid;
-        console.log(movieid);
+        this.movieTrailer = response.replace("watch?v=", "embed/");
       });
     },
   },

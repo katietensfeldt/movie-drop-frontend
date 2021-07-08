@@ -72,7 +72,9 @@
       <h3>Movie Suggestions</h3>
       <router-link v-if="$parent.getUserId() == user.id" :to="'/suggestions'">Manage suggestions</router-link>
       <div v-for="suggestion in suggestions" v-bind:key="suggestion.id">
-        <img :src="suggestion.movie.Poster" alt="movie poster" />
+        <router-link :to="`/movies/${suggestion.movie.imdbID}`">
+          <img :src="suggestion.movie.Poster" alt="movie poster" />
+        </router-link>
         <p>Suggested by: {{ suggestion.sender.username }}</p>
       </div>
     </div>
@@ -82,7 +84,9 @@
       <h3>Friend list</h3>
       <router-link :to="'/friends'">Manage friend list</router-link>
       <div v-for="friend in friends" v-bind:key="friend.id">
-        <img class="friend-profile" :src="friend.image" alt="" />
+        <router-link :to="`/users/${friend.id}`">
+          <img class="friend-profile" :src="friend.image" alt="" />
+        </router-link>
         <p>{{ friend.username }}</p>
       </div>
     </div>

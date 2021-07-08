@@ -44,7 +44,7 @@
         Accept
       </button>
       <p v-else>Request awaiting approval</p>
-      <button v-on:click="deleteRequest(friendship)">Decline</button>
+      <button v-on:click="deleteRequest(friendship)">Dismiss</button>
     </div>
   </div>
 </template>

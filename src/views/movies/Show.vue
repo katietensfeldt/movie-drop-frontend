@@ -25,7 +25,8 @@
     <p>Directed by: {{ movie.Director }}</p>
     <p>Starring: {{ movie.Actors }}</p>
     <p>Released: {{ movie.Released }}</p>
-    <p>Ratings from {{ movie.Ratings[0].Source }}: {{ movie.Ratings[0].Value }}</p>
+    <h4>Ratings:</h4>
+    <p v-for="rating in movie.Ratings" v-bind:key="rating">Rating from {{ rating.Source }}: {{ rating.Value }}</p>
     <p>
       Plot:
       <br />

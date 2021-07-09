@@ -1,50 +1,126 @@
 <template>
   <div class="friends-index">
-    <h2>My Friends</h2>
-    <!-- Error handling if friendships cannot be changed or deleted -->
-    <ul>
-      <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
-    </ul>
+    <div class="contain-wrapp padding-clear padding-bottom-30">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <!-- START - Images Gallery -->
+            <div id="gallery" class="masonry gallery">
+              <h2>My friends</h2>
+              <div class="row">
+                <!-- START - Gallery Card -->
+                <div
+                  v-for="friendship in approvedFriendships"
+                  v-bind:key="friendship.id"
+                  class="grid-item col-x12 col-md-4"
+                >
+                  <div v-if="friendship.sender.id == $parent.getUserId()">
+                    <div class="img-wrapper">
+                      <img :src="friendship.recipient.image" alt="Friend image" class="img-fluid" />
+                    </div>
+                    <div class="img-containt text-center">
+                      <h5>
+                        <router-link :to="`/users/${friendship.recipient.id}`">
+                          {{ friendship.recipient.username }}
+                        </router-link>
+                      </h5>
+                      <router-link :to="`/users/${friendship.recipient.id}`">
+                        {{ friendship.recipient.name }}
+                      </router-link>
+                      <div class="img-footer">
+                        <button v-on:click="unfriend(friendship)" type="button" class="btn-e btn-block btn-e-dark-red">
+                          <i class="fa fa-ban"></i>
+                          Unfriend
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-else>
+                    <div class="img-wrapper">
+                      <img :src="friendship.sender.image" alt="Friend image" class="img-fluid" />
+                    </div>
+                    <div class="img-containt text-center">
+                      <h5>
+                        <router-link :to="`/users/${friendship.sender.id}`">
+                          {{ friendship.sender.username }}
+                        </router-link>
+                      </h5>
+                      <router-link :to="`/users/${friendship.sender.id}`">{{ friendship.sender.name }}</router-link>
+                      <div class="img-footer">
+                        <button v-on:click="unfriend(friendship)" type="button" class="btn-e btn-block btn-e-dark-red">
+                          <i class="fa fa-ban"></i>
+                          Unfriend
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- END - Gallery Card -->
+              </div>
+              <h2>Pending friendships</h2>
+              <div class="row">
+                <!-- START - Gallery Card -->
+                <div
+                  v-for="friendship in pendingFriendships"
+                  v-bind:key="friendship.id"
+                  class="grid-item col-x12 col-md-4"
+                >
+                  <div v-if="friendship.sender.id == $parent.getUserId()">
+                    <div class="img-wrapper">
+                      <img :src="friendship.recipient.image" alt="Friend image" class="img-fluid" />
+                    </div>
+                    <div class="img-containt text-center">
+                      <h5>
+                        <router-link :to="`/users/${friendship.recipient.id}`">
+                          {{ friendship.recipient.username }}
+                        </router-link>
+                      </h5>
+                      <router-link :to="`/users/${friendship.recipient.id}`">
+                        {{ friendship.recipient.name }}
+                      </router-link>
+                      <div class="img-footer">
+                        <button
+                          v-on:click="deleteRequest(friendship)"
+                          type="button"
+                          class="btn-e btn-block btn-e-dark-red"
+                        >
+                          <i class="fa fa-ban"></i>
+                          Dismiss
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-else>
+                    <div class="img-wrapper">
+                      <img :src="friendship.sender.image" alt="Friend image" class="img-fluid" />
+                    </div>
+                    <div class="img-containt text-center">
+                      <h5>
+                        <router-link :to="`/users/${friendship.sender.id}`">
+                          {{ friendship.sender.username }}
+                        </router-link>
+                      </h5>
+                      <router-link :to="`/users/${friendship.sender.id}`">{{ friendship.sender.name }}</router-link>
+                      <ul class="img-footer">
+                        <button v-on:click="approveFriendship(friendship)" type="button" class="btn-e btn-e-green">
+                          <i class="fa fa-check"></i>
+                        </button>
+                        <button v-on:click="deleteRequest(friendship)" type="button" class="btn-e btn-e-dark-red">
+                          <i class="fa fa-ban"></i>
+                        </button>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- END - Gallery Card -->
+              </div>
+            </div>
+            <!-- END - Images Gallery -->
 
-    <!-- Friends -->
-    <div v-for="friendship in approvedFriendships" v-bind:key="friendship.recipient.id">
-      <div v-if="friendship.sender.id == $parent.getUserId()">
-        <router-link :to="`/users/${friendship.recipient.id}`">
-          <img :src="friendship.recipient.image" alt="Friend image" />
-        </router-link>
-        <p>{{ friendship.recipient.username }}</p>
+            <div class="clearfix"></div>
+          </div>
+        </div>
       </div>
-      <div v-else>
-        <router-link :to="`/users/${friendship.sender.id}`">
-          <img :src="friendship.sender.image" alt="Friend image" />
-        </router-link>
-        <p>{{ friendship.sender.username }}</p>
-      </div>
-      <button v-on:click="unfriend(friendship)">Unfriend</button>
-
-      <br />
-    </div>
-
-    <!-- Pending friends -->
-    <h2>Pending friendships</h2>
-    <div v-for="friendship in pendingFriendships" v-bind:key="friendship.id">
-      <div v-if="friendship.sender.id == $parent.getUserId()">
-        <router-link :to="`/users/${friendship.recipient.id}`">
-          <img :src="friendship.recipient.image" alt="Friend image" />
-        </router-link>
-        <p>{{ friendship.recipient.username }}</p>
-      </div>
-      <div v-else>
-        <router-link :to="`/users/${friendship.sender.id}`">
-          <img :src="friendship.sender.image" alt="Friend image" />
-        </router-link>
-        <p>{{ friendship.sender.username }}</p>
-      </div>
-      <button v-if="friendship.recipient.id == $parent.getUserId()" v-on:click="approveFriendship(friendship)">
-        Accept
-      </button>
-      <p v-else>Request awaiting approval</p>
-      <button v-on:click="deleteRequest(friendship)">Dismiss</button>
     </div>
   </div>
 </template>

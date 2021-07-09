@@ -1,20 +1,136 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="keywords"
+      content="corporate html template - agency theme - business html template - creative theme - portfolio html template - gallery theme - restaurant theme - ecommerce template - app template - landing page - real estate theme"
+    />
+    <meta
+      name="description"
+      content="Bootstrap HTML5 template for agency, corporate, business, app and creative portfolio, it is suitable for any kind of websites, like ecommerce, restaurant, photography, gallery and retail website."
+    />
+    <meta name="author" content="encodeslife" />
+    <link rel="icon" href="img/favicon.png" />
+
     <title>Movie Drop</title>
+
+    <!-- BOOTSTRAP -->
+    <link href="assets/libs/bootstrap/css/bootstrap.min.css?ver=4.5.3" rel="stylesheet" />
+
+    <!-- REVOLUTION SLIDER MAIN STYLESHEET -->
+    <link rel="stylesheet" href="css/revolution/settings.css" />
+
+    <!-- REVOLUTION SLIDER LAYERS AND NAVIGATION STYLES -->
+    <link rel="stylesheet" href="css/revolution/layers.css" />
+    <link rel="stylesheet" href="css/revolution/navigation.css" />
+
+    <!-- CUSTOM STYLES -->
+    <link href="css/style.css" rel="stylesheet" />
+
+    <!-- THEME SKINS -->
+    <link id="skin" href="css/theme-colors/red.css" rel="stylesheet" />
+    <link href="js/style-switcher/css/style-switcher.css" rel="stylesheet" />
+    <link href="css/line-icons/line-icons.css" rel="stylesheet" />
   </head>
+
   <body>
-    <noscript>
-      <strong>
-        We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please
-        enable it to continue.
-      </strong>
-    </noscript>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <!-- jQuery JS -->
+    <script src="assets/libs/jquery/jquery.min.js?ver=3.3.1"></script>
+    <!-- Popper JS -->
+    <script src="assets/libs/popper/popper.min.js?ver=1.16.1"></script>
+    <!-- Bootstrap JS -->
+    <script src="assets/libs/bootstrap/js/bootstrap.min.js?ver=4.5.3"></script>
+    <!-- jQuery Easing -->
+    <script src="js/jquery.easing-1.3.min.js"></script>
+
+    <!-- REVOLUTION SLIDER -->
+    <script src="js/revolution/js/jquery.themepunch.tools.min.js"></script>
+    <script src="js/revolution/js/jquery.themepunch.revolution.min.js"></script>
+    <script src="js/revolution/revolution-addons/slicey/js/revolution.addon.slicey.min.js?ver=1.0.0"></script>
+    <script src="js/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+    <script src="js/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+    <script src="js/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        if ($("#rev-slider").revolution != undefined) {
+          $("#rev-slider").revolution({
+            sliderType: "standard",
+            sliderLayout: "auto",
+            delay: 9000,
+            navigation: {
+              keyboardNavigation: "on",
+              keyboard_direction: "horizontal",
+              mouseScrollNavigation: "off",
+              onHoverStop: "off",
+              touch: {
+                touchenabled: "on",
+                swipe_threshold: 75,
+                swipe_min_touches: 1,
+                swipe_direction: "horizontal",
+                drag_block_vertical: false,
+              },
+              arrows: {
+                style: "hephaistos",
+                enable: true,
+                hide_onmobile: false,
+                hide_onleave: false,
+                tmp: "",
+                left: {
+                  h_align: "left",
+                  v_align: "center",
+                  h_offset: 30,
+                  v_offset: 0,
+                },
+                right: {
+                  h_align: "right",
+                  v_align: "center",
+                  h_offset: 30,
+                  v_offset: 0,
+                },
+              },
+              bullets: {
+                enable: true,
+                hide_onmobile: false,
+                style: "hephaistos",
+                hide_onleave: false,
+                direction: "horizontal",
+                h_align: "center",
+                v_align: "bottom",
+                h_offset: 20,
+                v_offset: 30,
+                space: 5,
+                tmp: "",
+              },
+            },
+            gridwidth: 1230,
+            gridheight: 720,
+          });
+        }
+      });
+    </script>
+
+    <!-- Parallax -->
+    <script src="js/parallax/jquery.parallax-1.1.3.js"></script>
+    <script src="js/parallax/setting.js"></script>
+
+    <!-- Owl Carousel -->
+    <script src="js/owlcarousel/js/owl.carousel.min.js"></script>
+    <script src="js/owlcarousel/js/setting.js"></script>
+
+    <!-- PrettyPhoto -->
+    <script src="js/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+    <script src="js/prettyPhoto/js/setting.js"></script>
+
+    <!-- Masonry -->
+    <script src="js/masonry/js/masonry.min.js"></script>
+    <script src="js/masonry/js/masonry.filter.js"></script>
+    <script src="js/masonry/js/setting.js"></script>
+
+    <!-- Custom JavaScript for this theme -->
+    <script src="js/custom.js"></script>
   </body>
 </html>

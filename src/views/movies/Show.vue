@@ -10,6 +10,8 @@
                 {{ movie.Plot }}
               </p>
             </div>
+            <div class="divider divider-dashed"></div>
+            <br />
             <div
               v-for="rating in movie.Ratings"
               v-bind:key="rating.Value"
@@ -27,6 +29,7 @@
                 </span>
               </div>
             </div>
+            <div class="divider divider-dashed"></div>
             <button
               v-on:click="showFriends()"
               type="button"

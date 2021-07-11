@@ -15,19 +15,15 @@
                   class="grid-item col-x12 col-md-4"
                 >
                   <div v-if="friendship.sender.id == $parent.getUserId()">
-                    <div class="img-wrapper">
-                      <img :src="friendship.recipient.image" alt="Friend image" class="img-fluid" />
-                    </div>
-                    <div class="img-containt text-center">
-                      <h5>
-                        <router-link :to="`/users/${friendship.recipient.id}`">
-                          {{ friendship.recipient.username }}
-                        </router-link>
-                      </h5>
-                      <router-link :to="`/users/${friendship.recipient.id}`">
-                        {{ friendship.recipient.name }}
-                      </router-link>
-                      <div class="img-footer">
+                    <div class="team-wrapp team-circle">
+                      <div class="img-wrapper wrapp-thumbnail wrapp-red">
+                        <img :src="friendship.recipient.image" alt="Friend image" class="img-circle img-fluid" />
+                      </div>
+                      <div class="caption">
+                        <h5>{{ friendship.recipient.username }}</h5>
+                        <p>{{ friendship.recipient.name }}</p>
+                      </div>
+                      <div class="team-network-bottom">
                         <button v-on:click="unfriend(friendship)" type="button" class="btn-e btn-block btn-e-dark-red">
                           <i class="fa fa-ban"></i>
                           Unfriend
@@ -36,17 +32,15 @@
                     </div>
                   </div>
                   <div v-else>
-                    <div class="img-wrapper">
-                      <img :src="friendship.sender.image" alt="Friend image" class="img-fluid" />
-                    </div>
-                    <div class="img-containt text-center">
-                      <h5>
-                        <router-link :to="`/users/${friendship.sender.id}`">
-                          {{ friendship.sender.username }}
-                        </router-link>
-                      </h5>
-                      <router-link :to="`/users/${friendship.sender.id}`">{{ friendship.sender.name }}</router-link>
-                      <div class="img-footer">
+                    <div class="team-wrapp team-circle">
+                      <div class="img-wrapper wrapp-thumbnail wrapp-red">
+                        <img :src="friendship.sender.image" alt="Friend image" class="img-circle img-fluid" />
+                      </div>
+                      <div class="caption">
+                        <h5>{{ friendship.sender.username }}</h5>
+                        <p>{{ friendship.sender.name }}</p>
+                      </div>
+                      <div class="team-network-bottom">
                         <button v-on:click="unfriend(friendship)" type="button" class="btn-e btn-block btn-e-dark-red">
                           <i class="fa fa-ban"></i>
                           Unfriend
@@ -66,49 +60,57 @@
                   class="grid-item col-x12 col-md-4"
                 >
                   <div v-if="friendship.sender.id == $parent.getUserId()">
-                    <div class="img-wrapper">
-                      <img :src="friendship.recipient.image" alt="Friend image" class="img-fluid" />
-                    </div>
-                    <div class="img-containt text-center">
-                      <h5>
+                    <div class="team-wrapp team-circle">
+                      <div class="img-wrapper wrapp-thumbnail wrapp-red">
+                        <img :src="friendship.recipient.image" alt="Friend image" class="img-circle img-fluid" />
+                      </div>
+                      <div class="caption">
                         <router-link :to="`/users/${friendship.recipient.id}`">
-                          {{ friendship.recipient.username }}
+                          <h5>{{ friendship.recipient.username }}</h5>
+                          <p>{{ friendship.recipient.name }}</p>
                         </router-link>
-                      </h5>
-                      <router-link :to="`/users/${friendship.recipient.id}`">
-                        {{ friendship.recipient.name }}
-                      </router-link>
-                      <div class="img-footer">
+                      </div>
+                      <div class="team-network-bottom">
                         <button
                           v-on:click="deleteRequest(friendship)"
                           type="button"
                           class="btn-e btn-block btn-e-dark-red"
                         >
                           <i class="fa fa-ban"></i>
-                          Dismiss
+                          Delete request
                         </button>
                       </div>
                     </div>
                   </div>
                   <div v-else>
-                    <div class="img-wrapper">
-                      <img :src="friendship.sender.image" alt="Friend image" class="img-fluid" />
-                    </div>
-                    <div class="img-containt text-center">
-                      <h5>
+                    <div class="team-wrapp team-circle">
+                      <div class="img-wrapper wrapp-thumbnail wrapp-red">
+                        <img :src="friendship.sender.image" alt="Friend image" class="img-circle img-fluid" />
+                      </div>
+                      <div class="caption">
                         <router-link :to="`/users/${friendship.sender.id}`">
-                          {{ friendship.sender.username }}
+                          <h5>{{ friendship.sender.username }}</h5>
+                          <p>{{ friendship.sender.name }}</p>
                         </router-link>
-                      </h5>
-                      <router-link :to="`/users/${friendship.sender.id}`">{{ friendship.sender.name }}</router-link>
-                      <ul class="img-footer">
-                        <button v-on:click="approveFriendship(friendship)" type="button" class="btn-e btn-e-green">
+                      </div>
+                      <div class="team-network-bottom">
+                        <button
+                          v-on:click="approveFriendship(friendship)"
+                          type="button"
+                          class="btn-e btn-block btn-e-green"
+                        >
                           <i class="fa fa-check"></i>
+                          Approve friendship
                         </button>
-                        <button v-on:click="deleteRequest(friendship)" type="button" class="btn-e btn-e-dark-red">
+                        <button
+                          v-on:click="deleteRequest(friendship)"
+                          type="button"
+                          class="btn-e btn-block btn-e-dark-red"
+                        >
                           <i class="fa fa-ban"></i>
+                          Delete request
                         </button>
-                      </ul>
+                      </div>
                     </div>
                   </div>
                 </div>

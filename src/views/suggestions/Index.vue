@@ -86,33 +86,6 @@
         </div>
       </div>
     </div>
-    <h2>My movie suggestions</h2>
-    <label for="sort">Sort suggestions by:</label>
-    <select v-model="sortAttribute" id="sort">
-      <option value="movie.Title">Movie Title</option>
-      <option value="sender.username">Sender</option>
-      <option value="watched">Watched</option>
-    </select>
-    <label for="order">In order:</label>
-    <select v-model="sortOrder" id="order">
-      <option :value="1">Ascending</option>
-      <option :value="-1">Descending</option>
-    </select>
-    <div v-for="suggestion in orderBy(suggestions, sortAttribute, sortOrder)" v-bind:key="suggestion.id">
-      <router-link :to="`/movies/${suggestion.movie.imdbID}`">
-        <img :src="suggestion.movie.Poster" alt="movie poster" />
-      </router-link>
-      <h4>{{ suggestion.movie.Title }} ({{ suggestion.movie.Year }})</h4>
-      <p>Suggested by: {{ suggestion.sender.username }}</p>
-
-      <label>
-        Watched:
-        <input type="checkbox" id="checkbox" v-model="suggestion.watched" v-on:change="editSuggestion(suggestion)" />
-      </label>
-
-      <br />
-      <button v-on:click="deleteSuggestion(suggestion)">Delete Suggestion</button>
-    </div>
   </div>
 </template>
 

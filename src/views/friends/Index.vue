@@ -20,8 +20,10 @@
                         <img :src="friendship.recipient.image" alt="Friend image" class="img-circle img-fluid" />
                       </div>
                       <div class="caption">
-                        <h5>{{ friendship.recipient.username }}</h5>
-                        <p>{{ friendship.recipient.name }}</p>
+                        <router-link :to="`users/${friendship.recipient.id}`">
+                          <h5>{{ friendship.recipient.username }}</h5>
+                          <p>{{ friendship.recipient.name }}</p>
+                        </router-link>
                       </div>
                       <div class="team-network-bottom">
                         <button v-on:click="unfriend(friendship)" type="button" class="btn-e btn-block btn-e-dark-red">
@@ -37,8 +39,10 @@
                         <img :src="friendship.sender.image" alt="Friend image" class="img-circle img-fluid" />
                       </div>
                       <div class="caption">
-                        <h5>{{ friendship.sender.username }}</h5>
-                        <p>{{ friendship.sender.name }}</p>
+                        <router-link :to="`users/${friendship.sender.id}`">
+                          <h5>{{ friendship.sender.username }}</h5>
+                          <p>{{ friendship.sender.name }}</p>
+                        </router-link>
                       </div>
                       <div class="team-network-bottom">
                         <button v-on:click="unfriend(friendship)" type="button" class="btn-e btn-block btn-e-dark-red">

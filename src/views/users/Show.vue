@@ -1,93 +1,186 @@
 <template>
   <div class="users-show">
-    <!-- MAIN USER INFO - viewable on all profile types -->
-    <div v-if="!editMode">
-      <img :src="user.image" alt="User image" />
-      <h2>{{ user.username }}</h2>
-      <p>{{ user.name }}</p>
+    <div class="contain-wrapp padding-clear padding-bottom-30">
+      <!-- Basic user card -->
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <!-- START - Images Gallery -->
+            <div id="gallery" class="masonry gallery" style="position: relative; height: 600px">
+              <div class="row">
+                <!-- START - Gallery 01 -->
+                <div data-filter="web" class="grid-item col-12" style="position: absolute; left: 0px; top: 0px">
+                  <div class="column-wrapper">
+                    <!-- MAIN USER INFO - viewable on all profile types -->
 
-      <!-- USER EDIT OR DELETE BUTTONS - current user only -->
-      <span v-if="$parent.getUserId() == user.id">
-        <button v-on:click="showEditUser">Edit user</button>
-        <button v-on:click="destroyUser">Delete Profile</button>
-      </span>
-    </div>
+                    <div class="img-wrapper half-column">
+                      <img :src="user.image" class="img-rounded img-fluid" alt="User image" style="width: 75%" />
+                    </div>
+                    <!-- USER BUTTONS - edit and delete for current user, add friend or friend request pending-->
+                    <div v-if="!editMode" class="img-containt half-column">
+                      <h4>{{ user.username }}</h4>
+                      <p>
+                        {{ user.name }}
+                      </p>
+                      <!-- If friend request is pending -->
+                      <div v-if="pending">
+                        <p>Friend request pending</p>
+                      </div>
+                      <!-- ADD FRIEND BUTTON - for non-friends only -->
+                      <div v-else-if="isNotFriend()">
+                        <button class="btn-e btn-e-primary btn-sm" v-on:click="addFriend()">Add Friend</button>
+                      </div>
+                      <p v-if="$parent.getUserId() == user.id">
+                        <button class="btn-e btn-e-default btn-sm" v-on:click="showEditUser">Edit user</button>
+                        <button class="btn-e btn-e-primary btn-sm" v-on:click="destroyUser">Delete Profile</button>
+                      </p>
+                    </div>
 
-    <!-- USER EDIT FORM -->
-    <div v-else>
-      <h2>Edit Profile</h2>
-      <!-- Error handling -->
-      <ul>
-        <li class="error" v-for="error in errors" v-bind:key="error">
-          {{ error }}
-        </li>
-      </ul>
-      <form v-on:submit.prevent="editUser()">
-        <label>
-          Username:
-          <input type="text" v-model="user.username" />
-        </label>
-        <br />
-        <label>
-          Name:
-          <input type="text" v-model="user.name" />
-        </label>
-        <br />
-        <label>
-          Profile Picture:
-          <input type="file" v-on:change="setFile($event)" ref="fileInput" />
-        </label>
-        <br />
-        <label>
-          Email address:
-          <input type="text" v-model="user.email" />
-        </label>
-        <br />
-        <label>
-          Phone number:
-          <input type="text" v-model="user.phone_number" />
-          <br />
-          <small>
-            Your number will be used for notification purposes. If you do not wish to receive notifications, please
-            either remove, or do not include your phone number.
-          </small>
-        </label>
-        <br />
-        <input type="submit" value="Save Changes" />
-        <button v-on:click="editMode = false">Cancel</button>
-      </form>
-    </div>
+                    <!-- USER EDIT FORM -->
+                    <div v-if="editMode" class="img-containt half-column">
+                      <h3>Edit profile</h3>
+                      <!-- Error handling -->
+                      <ul>
+                        <li class="error" v-for="error in errors" v-bind:key="error">
+                          {{ error }}
+                        </li>
+                      </ul>
+                      <form v-on:submit.prevent="editUser()" id="edit" class="form-horizontal">
+                        <div class="form-group has-feedback row">
+                          <label for="inputName" class="col-sm-3 col-form-label">
+                            Name
+                            <span class="text-danger small">*</span>
+                          </label>
+                          <div class="col-sm-9">
+                            <input
+                              autocomplete="name"
+                              v-model="user.name"
+                              type="text"
+                              class="form-control"
+                              id="inputName"
+                              placeholder="Name"
+                              required
+                            />
+                            <i class="fa fa-pencil form-control-feedback"></i>
+                          </div>
+                        </div>
+                        <div class="form-group has-feedback row">
+                          <label for="inputLastName" class="col-sm-3 col-form-label">
+                            E-mail
+                            <span class="text-danger small">*</span>
+                          </label>
+                          <div class="col-sm-9">
+                            <input
+                              autocomplete="email"
+                              v-model="user.email"
+                              type="text"
+                              class="form-control"
+                              id="inputLastName"
+                              placeholder="E-mail"
+                              required
+                            />
+                            <i class="fa fa-envelope form-control-feedback"></i>
+                          </div>
+                        </div>
+                        <div class="form-group has-feedback row">
+                          <label for="inputUserName" class="col-sm-3 col-form-label">
+                            Username
+                            <span class="text-danger small">*</span>
+                          </label>
+                          <div class="col-sm-9">
+                            <input
+                              autocomplete="username"
+                              v-model="user.username"
+                              type="text"
+                              class="form-control"
+                              id="inputUserName"
+                              placeholder="Username"
+                              required
+                            />
+                            <i class="fa fa-user form-control-feedback"></i>
+                          </div>
+                        </div>
 
-    <div v-if="pending">
-      <p>Friend request pending</p>
-    </div>
+                        <div class="form-group has-feedback row">
+                          <label for="phoneNumber" class="col-sm-3 col-form-label">Phone Number</label>
+                          <div class="col-sm-9">
+                            <input
+                              autocomplete="tel-national"
+                              v-model="user.phone_number"
+                              type="text"
+                              class="form-control"
+                              id="phoneNumber"
+                              placeholder="Will be used for notifications"
+                            />
+                            <i class="fa fa-phone form-control-feedback"></i>
+                          </div>
+                        </div>
+                        <div class="form-group row justify-content-end">
+                          <label for="profilePicture" class="col-sm-3 col-form-label">
+                            Profile Pic
+                            <span class="text-danger small">*</span>
+                          </label>
+                          <div class="col-sm-9">
+                            <input v-on:change="setFile($event)" ref="fileInput" type="file" id="profilePicture" />
+                          </div>
+                        </div>
+                        <div class="form-group row justify-content-end">
+                          <div class="col-12 col-md-9">
+                            <button class="col-3 btn-e btn-block btn-e-default" v-on:click="editMode = false">
+                              Cancel
+                            </button>
 
-    <!-- ADD FRIEND BUTTON - for non-friends only -->
-    <div v-else-if="isNotFriend()">
-      <button v-on:click="addFriend()">Add Friend</button>
-    </div>
-
-    <!-- USER'S MOVIE SUGGESTIONS - viewable on current user and friends pages -->
-    <div v-if="user.id == $parent.getUserId() || friendIds.includes(Number($parent.getUserId()))">
-      <h3>Movie Suggestions</h3>
-      <router-link v-if="$parent.getUserId() == user.id" :to="'/suggestions'">Manage suggestions</router-link>
-      <div v-for="suggestion in suggestions" v-bind:key="suggestion.id">
-        <router-link :to="`/movies/${suggestion.movie.imdbID}`">
-          <img :src="suggestion.movie.Poster" alt="movie poster" />
-        </router-link>
-        <p>Suggested by: {{ suggestion.sender.username }}</p>
+                            <button type="submit" class="col-3 btn-e btn-block btn-e-primary">Save</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <!-- END - Gallery 01 -->
+              </div>
+            </div>
+            <!-- END - Images Gallery -->
+          </div>
+        </div>
       </div>
-    </div>
 
-    <!-- FRIENDS LIST - current user only -->
-    <div v-if="user.id == $parent.getUserId()" class="friend-list">
-      <h3>Friend list</h3>
-      <router-link :to="'/friends'">Manage friend list</router-link>
-      <div v-for="friend in friends" v-bind:key="friend.id">
-        <router-link :to="`/users/${friend.id}`">
-          <img class="friend-profile" :src="friend.image" alt="" />
-        </router-link>
-        <p>{{ friend.username }}</p>
+      <!-- Movie suggestions (for current user and friends only) -->
+      <div v-if="user.id == $parent.getUserId() || friendIds.includes(Number($parent.getUserId()))" class="container">
+        <h3>Movie Suggestions</h3>
+        <router-link v-if="$parent.getUserId() == user.id" :to="'/suggestions'">Manage suggestions</router-link>
+        <div class="row">
+          <div v-for="suggestion in suggestions" v-bind:key="suggestion.id" class="col-sm-3">
+            <div class="thumbnail thumbnail-red">
+              <router-link :to="`/movies/${suggestion.movie.imdbID}`">
+                <img :src="suggestion.movie.Poster" alt="movie poster" class="img-fluid" />
+              </router-link>
+              <div class="caption">
+                <p>Suggested by: {{ suggestion.sender.username }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Friends list (for current user only) -->
+      <div v-if="user.id == $parent.getUserId()" class="container">
+        <h3>Friends</h3>
+        <router-link :to="'/suggestions'">Manage friends</router-link>
+        <div class="row">
+          <div v-for="friend in friends" v-bind:key="friend.id" class="col-sm-3">
+            <div class="team-wrapp team-circle">
+              <div class="img-wrapper wrapp-thumbnail wrapp-red">
+                <router-link :to="`/users/${friend.id}`">
+                  <img :src="friend.image" class="img-circle img-fluid" alt="" />
+                </router-link>
+              </div>
+              <div class="caption">
+                <p>{{ friend.username }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -119,8 +212,10 @@ export default {
         this.friendIds.push(friend.id);
       });
       this.isFriendshipPending();
+      console.log(this.friends);
     });
   },
+
   methods: {
     showEditUser: function () {
       this.editMode = true;

@@ -1,20 +1,62 @@
 <template>
   <div class="login">
-    <form v-on:submit.prevent="submit()">
-      <h1>Login</h1>
-      <ul>
-        <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
-      </ul>
-      <div>
-        <label>Email:</label>
-        <input type="email" v-model="email" />
+    <div class="contain-wrapp">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-6">
+            <div class="form-block center-block">
+              <h2 class="title">Login</h2>
+              <hr />
+              <ul>
+                <li v-for="error in errors" class="text-danger" v-bind:key="error">{{ error }}</li>
+              </ul>
+              <form id="login" class="form-horizontal" v-on:submit.prevent="submit()">
+                <div class="form-group has-feedback row">
+                  <label for="inputEmailAddress" class="col-sm-3 col-form-label">Email Address</label>
+                  <div class="col-sm-9">
+                    <input
+                      v-model="email"
+                      type="text"
+                      class="form-control"
+                      id="inputEmailAddress"
+                      placeholder="Email Address"
+                      required=""
+                    />
+                    <i class="fa fa-user form-control-feedback"></i>
+                  </div>
+                </div>
+                <div class="form-group has-feedback row">
+                  <label for="inputPassword" class="col-sm-3 col-form-label">Password</label>
+                  <div class="col-sm-9">
+                    <input
+                      v-model="password"
+                      type="password"
+                      class="form-control"
+                      id="inputPassword"
+                      placeholder="Password"
+                      required=""
+                    />
+                    <i class="fa fa-lock form-control-feedback"></i>
+                  </div>
+                </div>
+                <div class="form-group row justify-content-end">
+                  <div class="col-sm-9">
+                    <button type="submit" value="Submit" class="btn-e btn-block btn-e-primary margin-top-10">
+                      Log In
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <p class="text-center space-top">
+          Don't have an account yet?
+          <router-link to="/signup">Sign up</router-link>
+          now.
+        </p>
       </div>
-      <div>
-        <label>Password:</label>
-        <input type="password" v-model="password" autocomplete="on" />
-      </div>
-      <input type="submit" value="Submit" />
-    </form>
+    </div>
   </div>
 </template>
 

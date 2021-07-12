@@ -1,42 +1,142 @@
 <template>
   <div class="signup">
-    <form v-on:submit.prevent="submit()">
-      <h1>Signup</h1>
-      <ul>
-        <li class="text-danger" v-for="error in errors" v-bind:key="error">
-          {{ error }}
-        </li>
-      </ul>
-      <div class="form-group">
-        <label>Name:</label>
-        <input type="text" class="form-control" v-model="name" />
+    <div class="contain-wrapp">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-6">
+            <div class="form-block center-block">
+              <h2 class="title">Sign Up</h2>
+              <hr />
+              <ul>
+                <li class="text-danger" v-for="error in errors" v-bind:key="error">
+                  {{ error }}
+                </li>
+              </ul>
+              <form v-on:submit.prevent="submit()" id="register" class="form-horizontal">
+                <div class="form-group has-feedback row">
+                  <label for="inputName" class="col-sm-3 col-form-label">
+                    Name
+                    <span class="text-danger small">*</span>
+                  </label>
+                  <div class="col-sm-9">
+                    <input
+                      autocomplete="name"
+                      v-model="name"
+                      type="text"
+                      class="form-control"
+                      id="inputName"
+                      placeholder="Name"
+                      required
+                    />
+                    <i class="fa fa-pencil form-control-feedback"></i>
+                  </div>
+                </div>
+                <div class="form-group has-feedback row">
+                  <label for="inputLastName" class="col-sm-3 col-form-label">
+                    E-mail
+                    <span class="text-danger small">*</span>
+                  </label>
+                  <div class="col-sm-9">
+                    <input
+                      autocomplete="email"
+                      v-model="email"
+                      type="text"
+                      class="form-control"
+                      id="inputLastName"
+                      placeholder="E-mail"
+                      required
+                    />
+                    <i class="fa fa-envelope form-control-feedback"></i>
+                  </div>
+                </div>
+                <div class="form-group has-feedback row">
+                  <label for="inputUserName" class="col-sm-3 col-form-label">
+                    Username
+                    <span class="text-danger small">*</span>
+                  </label>
+                  <div class="col-sm-9">
+                    <input
+                      autocomplete="username"
+                      v-model="username"
+                      type="text"
+                      class="form-control"
+                      id="inputUserName"
+                      placeholder="Username"
+                      required
+                    />
+                    <i class="fa fa-user form-control-feedback"></i>
+                  </div>
+                </div>
+                <div class="form-group has-feedback row">
+                  <label for="inputPassword" class="col-sm-3 col-form-label">
+                    Password
+                    <span class="text-danger small">*</span>
+                  </label>
+                  <div class="col-sm-9">
+                    <input
+                      autocomplete="new-password"
+                      v-model="password"
+                      type="password"
+                      class="form-control"
+                      id="inputPassword"
+                      placeholder="Password"
+                      required
+                    />
+                    <i class="fa fa-lock form-control-feedback"></i>
+                  </div>
+                </div>
+                <div class="form-group has-feedback row">
+                  <label for="inputPasswordConfirmation" class="col-sm-3 col-form-label">
+                    Confirm Password
+                    <span class="text-danger small">*</span>
+                  </label>
+                  <div class="col-sm-9">
+                    <input
+                      autocomplete="new-password"
+                      v-model="password_confirmation"
+                      type="password"
+                      class="form-control"
+                      id="inputPasswordConfirmation"
+                      placeholder="Confirm Password"
+                      required
+                    />
+                    <i class="fa fa-lock form-control-feedback"></i>
+                  </div>
+                </div>
+                <div class="form-group has-feedback row">
+                  <label for="phoneNumber" class="col-sm-3 col-form-label">Phone Number</label>
+                  <div class="col-sm-9">
+                    <input
+                      autocomplete="tel-national"
+                      v-model="phone_number"
+                      type="text"
+                      class="form-control"
+                      id="phoneNumber"
+                      placeholder="Will be used for notifications"
+                    />
+                    <i class="fa fa-phone form-control-feedback"></i>
+                  </div>
+                </div>
+                <div class="form-group row justify-content-end">
+                  <label for="profilePicture" class="col-sm-3 col-form-label">
+                    Profile Pic
+                    <span class="text-danger small">*</span>
+                  </label>
+                  <div class="col-sm-9">
+                    <input required v-on:change="setFile($event)" ref="fileInput" type="file" id="profilePicture" />
+                  </div>
+                </div>
+                <div class="form-group row justify-content-end">
+                  <div class="col-12 col-md-9">
+                    <button type="submit" class="btn-e btn-block btn-e-primary">Sign Up</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Username:</label>
-        <input type="text" class="form-control" v-model="username" />
-      </div>
-      <div class="form-group">
-        <label>Profile Picture:</label>
-        <input type="file" v-on:change="setFile($event)" ref="fileInput" />
-      </div>
-      <div class="form-group">
-        <label>Email:</label>
-        <input type="email" class="form-control" v-model="email" />
-      </div>
-      <div class="form-group">
-        <label>Password:</label>
-        <input type="password" class="form-control" autocomplete="new-password" v-model="password" />
-      </div>
-      <div class="form-group">
-        <label>Password confirmation:</label>
-        <input type="password" class="form-control" autocomplete="off" v-model="password_confirmation" />
-      </div>
-      <div class="form-group">
-        <label>If you would like to receive notifications, please enter your phone number:</label>
-        <input type="text" class="form-control" v-model="phone_number" />
-      </div>
-      <input type="submit" class="btn btn-primary" value="Submit" />
-    </form>
+    </div>
   </div>
 </template>
 
@@ -77,8 +177,8 @@ export default {
         .post("/users", formData)
         .then((response) => {
           console.log(response.data);
-          this.$parent.flashMessage = "Successfully signed up! Please log in to access your account.";
           this.$router.push("/login");
+          this.$parent.flashMessage = "Successfully signed up! Please log in to access your account.";
         })
         .catch((error) => {
           this.errors = error.response.data.errors;

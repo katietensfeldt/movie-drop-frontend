@@ -34,44 +34,32 @@
                   v-bind:key="suggestion.id"
                   class="grid-item col-x12 col-md-4"
                 >
-                  <div class="img-wrapper text-center">
-                    <img :src="suggestion.movie.Poster" alt="movie poster" class="img-fluid" />
-                  </div>
-                  <div class="img-containt text-center">
-                    <h5>
-                      <router-link :to="`/movies/${suggestion.movie.imdbID}`">
-                        {{ suggestion.movie.Title }} ({{ suggestion.movie.Year }})
-                      </router-link>
-                    </h5>
-                    <router-link :to="`/users/${suggestion.sender.id}`">
-                      Sent by: {{ suggestion.sender.username }}
-                    </router-link>
-
-                    <div class="checkbox">
-                      <div class="custom-checkbox">
-                        <label>
-                          <input
-                            v-model="suggestion.watched"
-                            v-on:change="editSuggestion(suggestion)"
-                            type="checkbox"
-                            name="check_me"
-                          />
-                          <i v-if="suggestion.watched" class="fa fa-eye icon-circle icon-bordered fa-primary"></i>
-                          <i v-else class="fa fa-eye-slash icon-circle icon-bordered fa-primary"></i>
-
-                          <!-- <span class="checkmark"></span> -->
-                        </label>
-                      </div>
+                  <div class="thumbnail thumbnail-red team-wrapp">
+                    <div class="img-wrapper">
+                      <img :src="suggestion.movie.Poster" alt="movie poster" class="img-fluid" />
                     </div>
-
-                    <div class="img-footer">
-                      <button
-                        v-on:click="deleteSuggestion(suggestion)"
-                        type="button"
-                        class="btn-e btn-block btn-e-dark-red"
-                      >
-                        <i class="fa fa-ban"></i>
-                        Delete
+                    <div class="caption">
+                      <h6>{{ suggestion.movie.Title }} ({{ suggestion.movie.Year }})</h6>
+                      <p>Sent by: {{ suggestion.sender.username }}</p>
+                    </div>
+                    <div class="team-network-bottom">
+                      <div class="checkbox">
+                        <div class="custom-checkbox">
+                          <label>
+                            <input
+                              v-model="suggestion.watched"
+                              v-on:change="editSuggestion(suggestion)"
+                              type="checkbox"
+                              name="check_me"
+                            />
+                            <i v-if="suggestion.watched" class="fa fa-eye icon-square fa-black rounded-4x"></i>
+                            <i v-else class="fa fa-eye-slash icon-square fa-black rounded-4x"></i>
+                          </label>
+                        </div>
+                      </div>
+                      <button v-on:click="deleteSuggestion(suggestion)" class="btn-e btn-e-default">
+                        <i class="fa fa-window-close-o"></i>
+                        Delete from list
                       </button>
                     </div>
                   </div>

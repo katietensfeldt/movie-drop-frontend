@@ -18,7 +18,7 @@
             <div v-if="movies" class="row">
               <!-- START - Post 1 -->
               <div v-for="movie in movies" v-bind:key="movie.imdbID" class="col-md-6">
-                <article class="post">
+                <div class="thumbnail thumbnail-red team-wrapp">
                   <div class="img-wrapper">
                     <img
                       v-if="movie.Poster == 'N/A'"
@@ -26,14 +26,19 @@
                       alt="Image not available"
                       class="img-fluid"
                     />
-                    <img v-else :src="movie.Poster" class="img-fluid" alt="" />
+                    <img v-else :src="movie.Poster" class="img-fluid" alt="Movie Poster" />
                   </div>
-                  <div class="post-heading">
-                    <router-link class="btn-e btn-e-red btn-bordered" :to="`/movies/${movie.imdbID}`">
-                      {{ movie.Title }} ({{ movie.Year }})
+                  <div class="caption">
+                    <h5>{{ movie.Title }}</h5>
+                    <p>{{ movie.Year }}</p>
+                  </div>
+                  <div class="team-network-bottom">
+                    <router-link :to="`/movies/${movie.imdbID}`" class="btn-e btn-e-default hvr-icon-float-away">
+                      <i class="fa fa-film"></i>
+                      More info
                     </router-link>
                   </div>
-                </article>
+                </div>
               </div>
               <!-- END - Post 1 -->
             </div>

@@ -36,7 +36,9 @@
                 >
                   <div class="thumbnail thumbnail-red team-wrapp">
                     <div class="img-wrapper">
-                      <img :src="suggestion.movie.Poster" alt="movie poster" class="img-fluid" />
+                      <router-link :to="`movies/${suggestion.movie.imdbID}`">
+                        <img :src="suggestion.movie.Poster" alt="movie poster" class="img-fluid" />
+                      </router-link>
                     </div>
                     <div class="caption">
                       <h6>{{ suggestion.movie.Title }} ({{ suggestion.movie.Year }})</h6>

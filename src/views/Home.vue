@@ -1,32 +1,40 @@
 <template>
   <div class="home">
-    <div class="inner-head">
+    <div class="contain-wrapp home-app">
       <div class="container">
         <div class="row">
-          <div class="col-12">
-            <i class="fa fa-users"></i>
-            <h4>
-              Theme
-              <span>Pages</span>
-            </h4>
+          <div class="col-12 col-md-7 col-sm-6">
+            <div class="content-home contain-wrapp">
+              <h1 class="title">Welcome to MovieDrop</h1>
+              <p>Easily send your friends movie suggestions so you don't have to remember them!</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <h1>{{ message }}</h1>
+    <div v-if="!$parent.isLoggedIn()" class="cta-wrapper cta-primary">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h5>Sign up now! Or log in to get started</h5>
+            <router-link to="" type="button" class="btn-e btn-icon btn-e-default">
+              <i class="fa fa-address-card-o"></i>
+              Sign Up
+            </router-link>
+            <router-link to="" type="button" class="btn-e btn-icon btn-bordered btn-e-default">
+              <i class="fa fa-key"></i>
+              Log In
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
-
-<style></style>
 
 <script>
 // import axios from "axios";
 export default {
-  data: function () {
-    return {
-      message: "Welcome to Movie Drop",
-    };
-  },
   created: function () {},
   methods: {},
 };

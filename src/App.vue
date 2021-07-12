@@ -19,7 +19,7 @@
 
           <!-- START - Navbar Brand -->
           <div class="navbar-header">
-            <router-link class="navbar-brand logo" to="/">Movie Drop</router-link>
+            <router-link class="navbar-brand logo" to="/">MovieDrop</router-link>
           </div>
           <!-- END - Navbar Brand -->
 
@@ -53,61 +53,27 @@
     <footer>
       <div class="container">
         <div class="row">
-          <div class="col-12 col-lg-4">
+          <div class="col-12 col-md-6">
             <div class="footer-details">
-              <img src="img/themes/logo-orange.png" class="footer-logo" alt="Footer logo" />
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua.
-              </p>
+              <img src="/img/themes/logo-orange.png" class="footer-logo" alt="Footer logo" />
+              <p>MovieDrop built by Katie Tensfeldt. 2021.</p>
 
               <!-- START - Social Networks -->
-              <div class="footer-social">
-                <a href="javascript:void(0);"><i class="fa fa-facebook fa-2x"></i></a>
-                <a href="javascript:void(0);"><i class="fa fa-twitter fa-2x"></i></a>
-                <a href="javascript:void(0);"><i class="fa fa-instagram fa-2x"></i></a>
-                <a href="javascript:void(0);"><i class="fa fa-linkedin fa-2x"></i></a>
-              </div>
+
               <!-- END - Social Networks -->
             </div>
           </div>
-          <div class="col-12 col-md-6 col-lg-2">
+          <div class="col-12 col-md-6">
             <div class="footer-details">
-              <h5 class="footer-details-header">Quick Links</h5>
-              <ul class="footer-details-list list-unstyled">
-                <li><a href="javascript:void(0);">Home</a></li>
-                <li><a href="javascript:void(0);">About</a></li>
-                <li><a href="javascript:void(0);">Service</a></li>
-                <li><a href="javascript:void(0);">Login</a></li>
-                <li><a href="javascript:void(0);">Registration</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-lg-2">
-            <div class="footer-details">
-              <h5 class="footer-details-header">Service</h5>
-              <ul class="footer-details-list list-unstyled">
-                <li><a href="javascript:void(0);">Lorem Ipsum</a></li>
-                <li><a href="javascript:void(0);">Dolor sit amet</a></li>
-                <li><a href="javascript:void(0);">Eiusmod tempor</a></li>
-                <li><a href="javascript:void(0);">Labore et dolore</a></li>
-                <li><a href="javascript:void(0);">At vero eos</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-12 col-lg-4">
-            <div class="footer-details">
-              <h5 class="footer-details-header">Newsletter</h5>
-              <p>Subscribe to our newsletter to get important news & amazing offers:</p>
-
-              <!-- START - Subscribe -->
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Enter your email address..." />
-                <span class="input-group-btn">
-                  <button class="btn-e btn-e-primary" type="button"><i class="fa fa-send-o"></i></button>
-                </span>
+              <h5 class="footer-details-header">Source code</h5>
+              <div class="footer-social">
+                <a href="https://github.com/katietensfeldt/movie-drop-backend" target="_blank">
+                  <i class="fa fa-github fa-2x"></i>
+                </a>
+                <a href="https://github.com/katietensfeldt/movie-drop-frontend" target="_blank">
+                  <i class="fa fa-code fa-2x"></i>
+                </a>
               </div>
-              <!-- END - Subscribe -->
             </div>
           </div>
         </div>

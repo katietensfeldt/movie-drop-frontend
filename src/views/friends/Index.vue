@@ -4,7 +4,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12">
-            <i class="fa fa-users"></i>
+            <i class="fa fa-film"></i>
             <h4>
               My
               <span>Friends</span>

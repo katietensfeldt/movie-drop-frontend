@@ -1,8 +1,19 @@
 <template>
   <div class="movies-index">
+    <div class="inner-head">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <i class="fa fa-film"></i>
+            <h4>
+              <span>Movies</span>
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="contain-wrapp padding-bottom-40">
       <div class="container">
-        <h2>Search for a Movie</h2>
         <form class="form-inline" v-on:submit.prevent="findMovie()">
           <div class="form-group">
             <div class="input-group">
@@ -11,7 +22,7 @@
           </div>
           <button type="submit" class="btn-e btn-e-primary" v-on:click="findMovie" value="Search">Search</button>
         </form>
-        <div class="divider divider-2x"></div>
+        <div class="divider divider-dashed"></div>
         <div class="row">
           <!-- START - Article -->
           <div class="col-sm-8">

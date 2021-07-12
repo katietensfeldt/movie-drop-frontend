@@ -1,14 +1,27 @@
 <template>
   <div class="users-index">
-    <div class="contain-wrapp padding-clear padding-bottom-30">
+    <div class="inner-head">
       <div class="container">
-        <h2>Users</h2>
-        <div class="row margin-bottom-30">
-          <div class="col-xs-6">
-            <label for="search">Find a user</label>
-            <input type="text" v-model="userSearch" placeholder="ex. user123" class="form-control" />
+        <div class="row">
+          <div class="col-12">
+            <i class="fa fa-film"></i>
+            <h4>
+              <span>Users</span>
+            </h4>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="contain-wrapp padding-clear padding-bottom-30 margin-top-60">
+      <div class="container">
+        <form class="form-inline">
+          <div class="form-group">
+            <div class="input-group">
+              <input type="text" v-model="userSearch" placeholder="Find user: ex. user123" class="form-control" />
+            </div>
+          </div>
+        </form>
+
         <div class="divider divider-dashed"></div>
         <div class="row">
           <div class="col-12">

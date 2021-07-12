@@ -1,12 +1,28 @@
 <template>
   <div class="friends-index">
-    <div class="contain-wrapp padding-clear padding-bottom-30">
+    <div class="inner-head">
       <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <i class="fa fa-users"></i>
+            <h4>
+              My
+              <span>Friends</span>
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contain-wrapp padding-clear padding-bottom-30">
+      <div class="container contain-wrapp">
+        <form class="form-inline">
+          <a href="#pending">Go to pending</a>
+        </form>
+        <div class="divider divider-dashed"></div>
         <div class="row">
           <div class="col-12">
             <!-- START - Images Gallery -->
             <div id="gallery" class="masonry gallery">
-              <h2>My friends</h2>
               <div class="row">
                 <!-- START - Gallery Card -->
                 <div
@@ -56,7 +72,7 @@
                 <!-- END - Gallery Card -->
               </div>
               <h2>Pending friendships</h2>
-              <div class="row">
+              <div id="pending" class="row">
                 <!-- START - Gallery Card -->
                 <div
                   v-for="friendship in pendingFriendships"

@@ -1,9 +1,21 @@
 <template>
   <div class="suggestions-index">
+    <div class="inner-head">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <i class="fa fa-film"></i>
+            <h4>
+              My
+              <span>Suggestions</span>
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="contain-wrapp padding-clear padding-bottom-30">
       <div class="container">
-        <h2>My suggestions</h2>
-        <div class="row margin-bottom-30">
+        <div class="row margin-bottom-30 margin-top-60">
           <div class="col-xs-6">
             <label for="sort">Sort by:</label>
             <select v-model="sortAttribute" id="sort" class="form-control">

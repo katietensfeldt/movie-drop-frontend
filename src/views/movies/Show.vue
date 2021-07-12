@@ -11,7 +11,7 @@
               </p>
             </div>
             <div class="divider divider-dashed"></div>
-            <br />
+            <h5>Ratings</h5>
             <div
               v-for="rating in movie.Ratings"
               v-bind:key="rating.Value"
@@ -92,6 +92,7 @@
       </div>
     </div>
 
+    <!-- FACTS -->
     <div class="contain-wrapp padding-bottom-50">
       <div class="container">
         <div class="row justify-content-center">

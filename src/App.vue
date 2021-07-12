@@ -115,7 +115,11 @@
     </footer>
   </div>
 </template>
-
+<style>
+html {
+  scroll-behavior: smooth;
+}
+</style>
 <script>
 export default {
   data: function () {

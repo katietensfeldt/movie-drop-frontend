@@ -6,15 +6,20 @@
         <div class="row">
           <div class="col-12">
             <!-- START - Images Gallery -->
-            <div id="gallery" class="masonry gallery" style="position: relative; height: 600px">
+            <div id="gallery" class="masonry gallery contain-wrapp">
               <div class="row">
                 <!-- START - Gallery 01 -->
-                <div data-filter="web" class="grid-item col-12" style="position: absolute; left: 0px; top: 0px">
+                <div class="grid-item col-12">
                   <div class="column-wrapper">
                     <!-- MAIN USER INFO - viewable on all profile types -->
 
                     <div class="img-wrapper half-column">
-                      <img :src="user.image" class="img-rounded img-fluid" alt="User image" style="width: 75%" />
+                      <img
+                        :src="user.image"
+                        class="img-rounded img-fluid"
+                        alt="User image"
+                        style="height: 24rem; width: auto"
+                      />
                     </div>
                     <!-- USER BUTTONS - edit and delete for current user, add friend or friend request pending-->
                     <div v-if="!editMode" class="img-containt half-column">

@@ -52,14 +52,17 @@
         {{ flashMessage }}
       </div>
     </div>
-    <router-view />
+    <router-view :key="$route.path" />
     <footer>
       <div class="container">
         <div class="row">
           <div class="col-12 col-md-6">
             <div class="footer-details">
               <img src="/img/film-reel-36145.png" class="footer-logo" alt="Footer logo" />
-              <p>MovieDrop built by Katie Tensfeldt. 2021.</p>
+              <p>
+                <span>MovieDrop</span>
+                built by Katie Tensfeldt. 2021.
+              </p>
 
               <!-- START - Social Networks -->
 
@@ -82,6 +85,9 @@
         </div>
       </div>
     </footer>
+    <a href="#" class="toTop" style="display: inline">
+      <i class="fa fa-chevron-up"></i>
+    </a>
   </div>
 </template>
 <style>

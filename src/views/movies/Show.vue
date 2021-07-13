@@ -40,18 +40,35 @@
               <i class="fa fa-send-o"></i>
               Suggest to friend
             </button>
-            <button type="button" class="btn-e btn-e-primary" data-toggle="modal" data-target=".bs-example-modal-lg">
+            <button v-if="!movieTrailer" type="button" class="btn-e btn-e-primary">
+              <i class="fa fa-film"></i>
+              No clip available
+            </button>
+            <button
+              v-else
+              type="button"
+              class="btn-e btn-e-primary"
+              data-toggle="modal"
+              data-target=".bs-example-modal-lg"
+            >
               <i class="fa fa-film"></i>
               Watch a clip
             </button>
           </div>
           <div class="col-12 col-md-6">
-            <img :src="movie.Poster" alt="Movie poster" class="img-fluid" />
+            <img
+              v-if="movie.Poster == 'N/A'"
+              class="img-fluid"
+              src="https://quantum-soft.net/images/75x50-1/http://s2.1pic.org/files/2019/04/16/d9c3dc1540830681331f.jpg"
+              alt="Image not available"
+            />
+            <img v-else :src="movie.Poster" alt="Movie poster" class="img-fluid" />
           </div>
         </div>
       </div>
     </div>
 
+    <!-- SEND SUGGESTION MODAL -->
     <div class="modal fade" id="suggestionModal" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -75,6 +92,7 @@
       </div>
     </div>
 
+    <!-- WATCH CLIP MODAL -->
     <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -82,8 +100,8 @@
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
             <h6 class="modal-title">Clip</h6>
           </div>
-          <div class="modal-body">
-            <iframe width="750" height="400" :src="movieTrailer"></iframe>
+          <div class="modal-body text-center">
+            <iframe allowfullscreen="true" width="500" height="250" :src="movieTrailer"></iframe>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn-e btn-e-default btn-sm" data-dismiss="modal">Close</button>
@@ -120,13 +138,13 @@
           <div class="col-12 col-sm-6 col-md-4">
             <div class="icon-box box-primary">
               <div class="icon-box-contain">
-                <i class="fa fa-drivers-license-o fa-3x"></i>
+                <i class="fa fa-info fa-3x"></i>
                 <h5>Rated</h5>
                 <p>
                   {{ movie.Rated }}
                 </p>
               </div>
-              <i class="fa fa-drivers-license-o icon-bg"></i>
+              <i class="fa fa-info icon-bg"></i>
             </div>
           </div>
           <div class="col-12 col-sm-6 col-md-4">
@@ -228,6 +246,9 @@ export default {
     },
     getTrailer: function () {
       movieTrailer(this.movie.Title, this.movie.Year).then((response) => {
+        if (response == undefined) {
+          console.log("Sorry no movie");
+        }
         this.movieTrailer = response.replace("watch?v=", "embed/");
       });
     },

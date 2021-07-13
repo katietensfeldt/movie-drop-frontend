@@ -76,6 +76,7 @@
                       <h6>
                         <a :href="article.url" target="_blank">{{ article.title }}</a>
                       </h6>
+                      <p>{{ parsePublished(article.publishedAt) }}</p>
                     </div>
                   </div>
                 </div>

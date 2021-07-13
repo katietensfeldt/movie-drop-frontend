@@ -109,7 +109,6 @@ export default {
   created: function () {
     axios.get("/suggestions").then((response) => {
       this.suggestions = response.data;
-      console.log(response.data);
     });
   },
   methods: {

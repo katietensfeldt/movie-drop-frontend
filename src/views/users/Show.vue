@@ -6,13 +6,12 @@
         <div class="row">
           <div class="col-12">
             <!-- START - Images Gallery -->
-            <div id="gallery" class="masonry gallery contain-wrapp">
+            <div id="gallery" class="masonry gallery contain-wrapp margin-bottom-30">
               <div class="row">
                 <!-- START - Gallery 01 -->
                 <div class="grid-item col-12">
                   <div class="column-wrapper">
                     <!-- MAIN USER INFO - viewable on all profile types -->
-
                     <div class="img-wrapper half-column">
                       <img
                         :src="user.image"
@@ -33,11 +32,17 @@
                       </div>
                       <!-- ADD FRIEND BUTTON - for non-friends only -->
                       <div v-else-if="isNotFriend()">
-                        <button class="btn-e btn-e-primary btn-sm" v-on:click="addFriend()">Add Friend</button>
+                        <button class="btn-e btn-e-primary btn-sm hvr-shadow" v-on:click="addFriend()">
+                          Add Friend
+                        </button>
                       </div>
                       <p v-if="$parent.getUserId() == user.id">
-                        <button class="btn-e btn-e-default btn-sm" v-on:click="showEditUser">Edit user</button>
-                        <button class="btn-e btn-e-primary btn-sm" v-on:click="destroyUser">Delete Profile</button>
+                        <button class="btn-e btn-e-default btn-sm hvr-shadow" v-on:click="showEditUser()">
+                          Edit user
+                        </button>
+                        <button class="btn-e btn-e-primary btn-sm hvr-shadow" v-on:click="destroyUser()">
+                          Delete Profile
+                        </button>
                       </p>
                     </div>
 
@@ -59,7 +64,7 @@
                           <div class="col-sm-9">
                             <input
                               autocomplete="name"
-                              v-model="user.name"
+                              v-model="editUserParams.name"
                               type="text"
                               class="form-control"
                               id="inputName"
@@ -77,7 +82,7 @@
                           <div class="col-sm-9">
                             <input
                               autocomplete="email"
-                              v-model="user.email"
+                              v-model="editUserParams.email"
                               type="text"
                               class="form-control"
                               id="inputLastName"
@@ -95,7 +100,7 @@
                           <div class="col-sm-9">
                             <input
                               autocomplete="username"
-                              v-model="user.username"
+                              v-model="editUserParams.username"
                               type="text"
                               class="form-control"
                               id="inputUserName"
@@ -111,7 +116,7 @@
                           <div class="col-sm-9">
                             <input
                               autocomplete="tel-national"
-                              v-model="user.phone_number"
+                              v-model="editUserParams.phone_number"
                               type="text"
                               class="form-control"
                               id="phoneNumber"
@@ -131,7 +136,13 @@
                         </div>
                         <div class="form-group row justify-content-end">
                           <div class="col-12 col-md-9">
-                            <button class="col-3 btn-e btn-block btn-e-default" v-on:click="editMode = false">
+                            <button
+                              class="col-3 btn-e btn-block btn-e-default"
+                              v-on:click="
+                                editMode = false;
+                                editUserParams = user;
+                              "
+                            >
                               Cancel
                             </button>
 
@@ -171,17 +182,19 @@
       <!-- Friends list (for current user only) -->
       <div v-if="user.id == $parent.getUserId()" class="container">
         <h3>Friends</h3>
-        <router-link :to="'/friends'">Manage friends</router-link>
+        <router-link to="/friends">Manage friends</router-link>
         <div class="row">
           <div v-for="friend in friends" v-bind:key="friend.id" class="col-sm-3">
             <div class="team-wrapp team-circle">
               <div class="img-wrapper wrapp-thumbnail wrapp-red">
-                <router-link :to="`/users/${friend.id}`">
-                  <img :src="friend.image" class="img-circle img-fluid" alt="" />
-                </router-link>
+                <!-- <router-link :to="`/users/${friend.id}`"> -->
+                <img v-on:click="navigate(friend)" :src="friend.image" class="img-circle img-fluid" alt="" />
+                <!-- </router-link> -->
               </div>
               <div class="caption">
-                <p>{{ friend.username }}</p>
+                <router-link :to="`/users/${friend.id}`">
+                  <p>{{ friend.username }}</p>
+                </router-link>
               </div>
             </div>
           </div>
@@ -211,6 +224,7 @@ export default {
   created: function () {
     axios.get(`/users/${this.$route.params.id}`).then((response) => {
       this.user = response.data;
+      this.editUserParams = this.user;
       this.friends = response.data.friends;
       this.friends.forEach((friend) => {
         this.friendIds.push(friend.id);
@@ -225,7 +239,6 @@ export default {
   methods: {
     showEditUser: function () {
       this.editMode = true;
-      this.editUserParams = this.user;
     },
     setFile: function (event) {
       if (event.target.files) {
@@ -234,14 +247,14 @@ export default {
     },
     editUser: function () {
       var formData = new FormData();
-      formData.append("name", this.user.name);
-      formData.append("username", this.user.username);
-      formData.append("email", this.user.email);
-      if (this.user.image) {
-        formData.append("image", this.user.image);
+      formData.append("name", this.editUserParams.name);
+      formData.append("username", this.editUserParams.username);
+      formData.append("email", this.editUserParams.email);
+      if (this.editUserParams.image) {
+        formData.append("image", this.editUserParams.image);
       }
-      if (this.user.phone_number) {
-        formData.append("phone_number", this.user.phone_number);
+      if (this.editUserParams.phone_number) {
+        formData.append("phone_number", this.editUserParams.phone_number);
       }
 
       axios
@@ -302,6 +315,9 @@ export default {
       } else {
         return false;
       }
+    },
+    navigate: function (friend) {
+      this.$router.push(`/users/${friend.id}`);
     },
   },
 };

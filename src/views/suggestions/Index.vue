@@ -121,20 +121,17 @@ export default {
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
-          console.log(this.errors);
         });
     },
     deleteSuggestion: function (suggestion) {
       axios
         .delete(`/suggestions/${suggestion.id}`)
-        .then((response) => {
+        .then(() => {
           var index = this.suggestions.indexOf(suggestion);
           this.suggestions.splice(index, 1);
-          console.log(response.data);
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
-          console.log(this.errors);
         });
     },
   },

@@ -72,7 +72,6 @@ export default {
   created: function () {
     axios.get("/users").then((response) => {
       this.users = response.data;
-      console.log(this.users);
     });
   },
 };

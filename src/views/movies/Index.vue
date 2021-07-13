@@ -105,7 +105,6 @@ export default {
   created: function () {
     axios.get("/movies_news").then((response) => {
       this.articles = response.data;
-      console.log(response.data);
     });
   },
   methods: {
@@ -118,7 +117,6 @@ export default {
         })
         .then((response) => {
           this.movies = response.data.Search;
-          console.log(response.data.Search);
         });
     },
     parsePublished: function (datetime) {

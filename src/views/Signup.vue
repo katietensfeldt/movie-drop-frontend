@@ -175,8 +175,7 @@ export default {
       }
       axios
         .post("/users", formData)
-        .then((response) => {
-          console.log(response.data);
+        .then(() => {
           this.$router.push("/login");
           this.$parent.flashMessage = "Successfully signed up! Please log in to access your account.";
         })

@@ -164,7 +164,6 @@ export default {
     axios.get("/friendships").then((response) => {
       this.friendships = response.data;
       this.setFriendshipStatus();
-      console.log(response.data);
     });
   },
   methods: {
@@ -185,21 +184,18 @@ export default {
           this.approvedFriendships.push(response.data);
           var index = this.pendingFriendships.indexOf(friendship);
           this.pendingFriendships.splice(index, 1);
-          console.log(response.data);
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
-          console.log(error.response.data.errors);
         });
     },
     deleteRequest: function (friendship) {
       if (confirm("Are you sure you want to proceed? This action cannot be reversed.")) {
         axios
           .delete(`/friendships/${friendship.id}`)
-          .then((response) => {
+          .then(() => {
             var index = this.pendingFriendships.indexOf(friendship);
             this.pendingFriendships.splice(index, 1);
-            console.log(response.data);
           })
           .catch((error) => {
             this.errors = error.response.data.errors;
@@ -210,10 +206,9 @@ export default {
       if (confirm("Are you sure you want to proceed? This action cannot be reversed.")) {
         axios
           .delete(`/friendships/${friendship.id}`)
-          .then((response) => {
+          .then(() => {
             var index = this.approvedFriendships.indexOf(friendship);
             this.approvedFriendships.splice(index, 1);
-            console.log(response.data);
           })
           .catch((error) => {
             this.errors = error.response.data.errors;

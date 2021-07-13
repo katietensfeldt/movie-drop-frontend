@@ -201,7 +201,7 @@ export default {
   created: function () {
     axios.get(`/movies/${this.$route.params.id}`).then((response) => {
       this.movie = response.data;
-      console.log(this.movie);
+
       this.getTrailer();
     });
   },
@@ -221,7 +221,6 @@ export default {
         .post("/suggestions", this.newSuggestionParams)
         .then((response) => {
           this.$parent.flashMessage = `Suggestion sent to ${response.data.recipient.username}.`;
-          console.log(response.data);
         })
         .catch((error) => {
           this.errors = error.response.data.errors;

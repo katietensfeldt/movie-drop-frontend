@@ -212,12 +212,13 @@ export default {
     axios.get(`/users/${this.$route.params.id}`).then((response) => {
       this.user = response.data;
       this.friends = response.data.friends;
-      this.suggestions = response.data.suggestions;
       this.friends.forEach((friend) => {
         this.friendIds.push(friend.id);
       });
       this.isFriendshipPending();
-      console.log(this.friends);
+    });
+    axios.get("/suggestions").then((response) => {
+      this.suggestions = response.data;
     });
   },
 
@@ -271,8 +272,7 @@ export default {
       this.newFriendParams.recipient_id = this.user.id;
       axios
         .post("/friendships", this.newFriendParams)
-        .then((response) => {
-          console.log(response.data);
+        .then(() => {
           this.$parent.flashMessage = "Friend request sent.";
           this.$router.push("/users");
         })

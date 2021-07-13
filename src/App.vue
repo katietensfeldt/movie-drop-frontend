@@ -19,7 +19,10 @@
 
           <!-- START - Navbar Brand -->
           <div class="navbar-header">
-            <router-link class="navbar-brand logo" to="/">MovieDrop</router-link>
+            <router-link class="navbar-brand logo" to="/">
+              <img style="height: 60px" src="/img/film-reel-36145.png" />
+              MovieDrop
+            </router-link>
           </div>
           <!-- END - Navbar Brand -->
 
@@ -55,7 +58,7 @@
         <div class="row">
           <div class="col-12 col-md-6">
             <div class="footer-details">
-              <img src="/img/themes/logo-orange.png" class="footer-logo" alt="Footer logo" />
+              <img src="/img/film-reel-36145.png" class="footer-logo" alt="Footer logo" />
               <p>MovieDrop built by Katie Tensfeldt. 2021.</p>
 
               <!-- START - Social Networks -->

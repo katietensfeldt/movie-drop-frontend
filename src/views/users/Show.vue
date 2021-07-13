@@ -171,7 +171,7 @@
       <!-- Friends list (for current user only) -->
       <div v-if="user.id == $parent.getUserId()" class="container">
         <h3>Friends</h3>
-        <router-link :to="'/suggestions'">Manage friends</router-link>
+        <router-link :to="'/friends'">Manage friends</router-link>
         <div class="row">
           <div v-for="friend in friends" v-bind:key="friend.id" class="col-sm-3">
             <div class="team-wrapp team-circle">

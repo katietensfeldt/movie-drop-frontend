@@ -79,7 +79,6 @@ export default {
       search: "",
     };
   },
-  created: function () {},
   methods: {
     findUser: function () {
       axios

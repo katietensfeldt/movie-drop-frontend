@@ -13,6 +13,21 @@
         </div>
       </div>
     </div>
+    <div v-if="$parent.flashMessage" class="">
+      <div class="alert alert-info alert-dismissible container" role="alert">
+        <button
+          v-on:click="$parent.flashMessage = ''"
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span>×</span>
+        </button>
+        <i class="fa fa-check-circle"></i>
+        {{ $parent.flashMessage }}
+      </div>
+    </div>
     <div class="contain-wrapp padding-clear padding-bottom-30">
       <div class="container">
         <div class="row margin-bottom-30 margin-top-60">
@@ -58,7 +73,7 @@
                     </div>
                     <div class="team-network-bottom">
                       <div class="checkbox">
-                        <div class="custom-checkbox">
+                        <div style="padding-left: 0" class="custom-checkbox">
                           <label>
                             <input
                               v-model="suggestion.watched"

@@ -1,5 +1,20 @@
 <template>
   <div class="movies-show">
+    <div v-if="$parent.flashMessage" class="">
+      <div class="alert alert-info alert-dismissible container" role="alert">
+        <button
+          v-on:click="$parent.flashMessage = ''"
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span>×</span>
+        </button>
+        <i class="fa fa-check-circle"></i>
+        {{ $parent.flashMessage }}
+      </div>
+    </div>
     <div class="contain-wrapp padding-bottom-clear">
       <div class="container">
         <div class="row">
@@ -58,11 +73,11 @@
           <div class="col-12 col-md-6">
             <img
               v-if="movie.Poster == 'N/A'"
-              class="img-fluid"
-              src="https://quantum-soft.net/images/75x50-1/http://s2.1pic.org/files/2019/04/16/d9c3dc1540830681331f.jpg"
+              class="img-fluid thumbnail thumbnail-black"
+              src="/img/poster_missing.jpeg"
               alt="Image not available"
             />
-            <img v-else :src="movie.Poster" alt="Movie poster" class="img-fluid" />
+            <img v-else :src="movie.Poster" alt="Movie poster" class="img-fluid thumbnail thumbnail-black" />
           </div>
         </div>
       </div>

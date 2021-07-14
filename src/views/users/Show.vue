@@ -1,6 +1,49 @@
 <template>
   <div class="users-show">
+    <div class="inner-head">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <i class="fa fa-film"></i>
+            <h4>
+              {{ user.username }}&#39;s
+              <span>Profile</span>
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="$parent.flashMessage" class="">
+      <div class="alert alert-info alert-dismissible container" role="alert">
+        <button
+          v-on:click="$parent.flashMessage = ''"
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span>×</span>
+        </button>
+        <i class="fa fa-check-circle"></i>
+        {{ $parent.flashMessage }}
+      </div>
+    </div>
     <div class="contain-wrapp padding-clear padding-bottom-30">
+      <div class="container margin-top-30">
+        <form class="form-inline">
+          <a
+            v-if="user.id == $parent.getUserId() || friendIds.includes(Number($parent.getUserId()))"
+            href="#movie-suggestions"
+          >
+            Suggestions
+          </a>
+          <span v-if="user.id == $parent.getUserId()">
+            |
+            <a href="#friend-list">Friends</a>
+          </span>
+        </form>
+        <div class="divider divider-dashed"></div>
+      </div>
       <!-- Basic user card -->
       <div class="container">
         <div class="row">
@@ -13,18 +56,13 @@
                   <div class="column-wrapper">
                     <!-- MAIN USER INFO - viewable on all profile types -->
                     <div class="img-wrapper half-column">
-                      <img
-                        :src="user.image"
-                        class="img-rounded img-fluid"
-                        alt="User image"
-                        style="height: 24rem; width: auto"
-                      />
+                      <img :src="user.image" class="img-rounded img-fluid" alt="User image" style="width: 100%" />
                     </div>
                     <!-- USER BUTTONS - edit and delete for current user, add friend or friend request pending-->
                     <div v-if="!editMode" class="img-containt half-column">
-                      <h4>{{ user.username }}</h4>
+                      <h4>{{ cachedUser.username }}</h4>
                       <p>
-                        {{ user.name }}
+                        {{ cachedUser.name }}
                       </p>
                       <!-- If friend request is pending -->
                       <div v-if="pending">
@@ -37,7 +75,7 @@
                         </button>
                       </div>
                       <p v-if="$parent.getUserId() == user.id">
-                        <button class="btn-e btn-e-default btn-sm hvr-shadow" v-on:click="toggleEditUser()">
+                        <button class="btn-e btn-e-default btn-sm hvr-shadow" v-on:click="editMode = true">
                           Edit user
                         </button>
                         <button class="btn-e btn-e-primary btn-sm hvr-shadow" v-on:click="destroyUser()">
@@ -126,17 +164,14 @@
                           </div>
                         </div>
                         <div class="form-group row justify-content-end">
-                          <label for="profilePicture" class="col-sm-3 col-form-label">
-                            Profile Pic
-                            <span class="text-danger small">*</span>
-                          </label>
+                          <label for="profilePicture" class="col-sm-3 col-form-label">Profile Pic</label>
                           <div class="col-sm-9">
                             <input v-on:change="setFile($event)" ref="fileInput" type="file" id="profilePicture" />
                           </div>
                         </div>
                         <div class="form-group row justify-content-end">
                           <div class="col-12 col-md-9">
-                            <button class="col-3 btn-e btn-block btn-e-default" v-on:click="toggleEditUser()">
+                            <button class="col-3 btn-e btn-block btn-e-default" v-on:click="editMode = false">
                               Cancel
                             </button>
 
@@ -157,7 +192,7 @@
 
       <!-- Movie suggestions (for current user and friends only) -->
       <div v-if="user.id == $parent.getUserId() || friendIds.includes(Number($parent.getUserId()))" class="container">
-        <h3>Movie Suggestions</h3>
+        <h3 id="movie-suggestions">Movie Suggestions</h3>
         <router-link v-if="$parent.getUserId() == user.id" :to="'/suggestions'">Manage suggestions</router-link>
         <div class="row">
           <div v-for="suggestion in suggestions" v-bind:key="suggestion.id" class="col-sm-3">
@@ -174,7 +209,7 @@
       </div>
 
       <!-- Friends list (for current user only) -->
-      <div v-if="user.id == $parent.getUserId()" class="container">
+      <div id="friend-list" v-if="user.id == $parent.getUserId()" class="container">
         <h3>Friends</h3>
         <router-link to="/friends">Manage friends</router-link>
         <div class="row">
@@ -205,6 +240,7 @@ export default {
   data: function () {
     return {
       user: {},
+      cachedUser: {},
       friends: {},
       pending: false,
       friendIds: [],
@@ -217,22 +253,17 @@ export default {
   created: function () {
     axios.get(`/users/${this.$route.params.id}`).then((response) => {
       this.user = response.data;
+      this.cachedUser = Object.assign({}, this.user);
       this.friends = response.data.friends;
+      this.suggestions = response.data.suggestions;
       this.friends.forEach((friend) => {
         this.friendIds.push(friend.id);
       });
       this.isFriendshipPending();
     });
-    axios.get("/suggestions").then((response) => {
-      this.suggestions = response.data;
-    });
   },
 
   methods: {
-    toggleEditUser: function () {
-      this.editMode = !this.editMode;
-      console.log(this.user);
-    },
     setFile: function (event) {
       if (event.target.files) {
         this.user.image = event.target.files[0];
@@ -251,9 +282,10 @@ export default {
       axios
         .patch(`/users/${this.$route.params.id}`, formData)
         .then((response) => {
-          this.user = response.data;
           this.$parent.flashMessage = "Your details have been updated.";
           this.editMode = false;
+          this.user = response.data;
+          this.cachedUser = Object.assign({}, this.user);
         })
         .catch((error) => {
           this.errors = error.response.data.errors;

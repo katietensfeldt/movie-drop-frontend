@@ -13,6 +13,21 @@
         </div>
       </div>
     </div>
+    <div v-if="$parent.flashMessage" class="">
+      <div class="alert alert-info alert-dismissible container" role="alert">
+        <button
+          v-on:click="$parent.flashMessage = ''"
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span>×</span>
+        </button>
+        <i class="fa fa-check-circle"></i>
+        {{ $parent.flashMessage }}
+      </div>
+    </div>
     <div class="contain-wrapp padding-clear padding-bottom-30">
       <div class="container contain-wrapp">
         <form class="form-inline">
@@ -25,11 +40,7 @@
             <div id="gallery" class="masonry gallery">
               <div class="row">
                 <!-- START - Gallery Card -->
-                <div
-                  v-for="friendship in approvedFriendships"
-                  v-bind:key="friendship.id"
-                  class="grid-item col-x12 col-md-4"
-                >
+                <div v-for="friendship in approvedFriendships" v-bind:key="friendship.id" class="grid-item col-3">
                   <div v-if="friendship.sender.id == $parent.getUserId()">
                     <div class="team-wrapp team-circle">
                       <div class="img-wrapper wrapp-thumbnail wrapp-red">
@@ -71,14 +82,10 @@
                 </div>
                 <!-- END - Gallery Card -->
               </div>
-              <h2>Pending friendships</h2>
+              <h3>Pending friendships</h3>
               <div id="pending" class="row">
                 <!-- START - Gallery Card -->
-                <div
-                  v-for="friendship in pendingFriendships"
-                  v-bind:key="friendship.id"
-                  class="grid-item col-x12 col-md-4"
-                >
+                <div v-for="friendship in pendingFriendships" v-bind:key="friendship.id" class="grid-item col-3">
                   <div v-if="friendship.sender.id == $parent.getUserId()">
                     <div class="team-wrapp team-circle">
                       <div class="img-wrapper wrapp-thumbnail wrapp-red">

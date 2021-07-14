@@ -43,15 +43,6 @@
         </div>
       </nav>
     </div>
-    <div v-if="flashMessage" class="contain-wrapp">
-      <div class="alert alert-info alert-dismissible container" role="alert">
-        <button v-on:click="flashMessage = ''" type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span>×</span>
-        </button>
-        <i class="fa fa-info"></i>
-        {{ flashMessage }}
-      </div>
-    </div>
     <router-view :key="$route.path" />
     <footer>
       <div class="container">

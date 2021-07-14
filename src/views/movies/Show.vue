@@ -101,7 +101,11 @@
             <h6 class="modal-title">Clip</h6>
           </div>
           <div class="modal-body text-center">
-            <iframe allowfullscreen="true" width="500" height="250" :src="movieTrailer"></iframe>
+            <iframe
+              style="height: 400px; width: 100%; resize: both; overflow: auto"
+              allowfullscreen="true"
+              :src="movieTrailer"
+            ></iframe>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn-e btn-e-default btn-sm" data-dismiss="modal">Close</button>

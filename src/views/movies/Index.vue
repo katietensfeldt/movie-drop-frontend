@@ -26,8 +26,8 @@
         <div class="row">
           <!-- START - Article -->
           <div class="col-sm-8">
+            <!-- START - MOVIE POSTERS -->
             <div v-if="movies" class="row">
-              <!-- START - Post 1 -->
               <div v-for="movie in movies" v-bind:key="movie.imdbID" class="col-md-6">
                 <div class="thumbnail thumbnail-red team-wrapp">
                   <div class="img-wrapper">
@@ -51,17 +51,18 @@
                   </div>
                 </div>
               </div>
-              <!-- END - Post 1 -->
+              <!-- END - MOVIE POSTERS -->
             </div>
+            <!-- START - SEARCH ERROR HANDLING -->
             <div v-else class="row">
               <p>Hmm... I can't find that movie. Please check your spelling and try again.</p>
             </div>
-
+            <!-- END - SEARCH ERROR HANDLING -->
             <div class="clearfix"></div>
           </div>
           <!-- END - Article -->
 
-          <!-- START - Aside -->
+          <!-- START - TOP MOVIE ARTICLES -->
           <div class="col-12 col-sm-4">
             <aside>
               <!-- START - Widget 2 -->
@@ -84,7 +85,7 @@
               <!-- END - Widget 2 -->
             </aside>
           </div>
-          <!-- END - Aside -->
+          <!-- END - TOP MOVIE ARTICLES -->
         </div>
       </div>
     </div>

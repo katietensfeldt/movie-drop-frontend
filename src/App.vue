@@ -21,7 +21,7 @@
           <div class="navbar-header">
             <router-link class="navbar-brand logo" to="/">
               <img style="height: 60px" src="/img/film-reel-36145.png" />
-              MovieDrop
+              <span style="color: #dc3545; font-weight: bold">MovieDrop</span>
             </router-link>
           </div>
           <!-- END - Navbar Brand -->
@@ -60,7 +60,7 @@
             <div class="footer-details">
               <img src="/img/film-reel-36145.png" class="footer-logo" alt="Footer logo" />
               <p>
-                <span>MovieDrop</span>
+                <span style="color: #dc3545; font-weight: bold">MovieDrop</span>
                 built by Katie Tensfeldt. 2021.
               </p>
 

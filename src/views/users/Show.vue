@@ -37,7 +37,7 @@
                         </button>
                       </div>
                       <p v-if="$parent.getUserId() == user.id">
-                        <button class="btn-e btn-e-default btn-sm hvr-shadow" v-on:click="showEditUser()">
+                        <button class="btn-e btn-e-default btn-sm hvr-shadow" v-on:click="toggleEditUser()">
                           Edit user
                         </button>
                         <button class="btn-e btn-e-primary btn-sm hvr-shadow" v-on:click="destroyUser()">
@@ -64,7 +64,7 @@
                           <div class="col-sm-9">
                             <input
                               autocomplete="name"
-                              v-model="editUserParams.name"
+                              v-model="user.name"
                               type="text"
                               class="form-control"
                               id="inputName"
@@ -82,7 +82,7 @@
                           <div class="col-sm-9">
                             <input
                               autocomplete="email"
-                              v-model="editUserParams.email"
+                              v-model="user.email"
                               type="text"
                               class="form-control"
                               id="inputLastName"
@@ -100,7 +100,7 @@
                           <div class="col-sm-9">
                             <input
                               autocomplete="username"
-                              v-model="editUserParams.username"
+                              v-model="user.username"
                               type="text"
                               class="form-control"
                               id="inputUserName"
@@ -116,7 +116,7 @@
                           <div class="col-sm-9">
                             <input
                               autocomplete="tel-national"
-                              v-model="editUserParams.phone_number"
+                              v-model="user.phone_number"
                               type="text"
                               class="form-control"
                               id="phoneNumber"
@@ -136,13 +136,7 @@
                         </div>
                         <div class="form-group row justify-content-end">
                           <div class="col-12 col-md-9">
-                            <button
-                              class="col-3 btn-e btn-block btn-e-default"
-                              v-on:click="
-                                editMode = false;
-                                editUserParams = user;
-                              "
-                            >
+                            <button class="col-3 btn-e btn-block btn-e-default" v-on:click="toggleEditUser()">
                               Cancel
                             </button>
 
@@ -216,7 +210,6 @@ export default {
       friendIds: [],
       suggestions: {},
       editMode: false,
-      editUserParams: {},
       errors: [],
       newFriendParams: {},
     };
@@ -224,7 +217,6 @@ export default {
   created: function () {
     axios.get(`/users/${this.$route.params.id}`).then((response) => {
       this.user = response.data;
-      this.editUserParams = this.user;
       this.friends = response.data.friends;
       this.friends.forEach((friend) => {
         this.friendIds.push(friend.id);
@@ -237,8 +229,9 @@ export default {
   },
 
   methods: {
-    showEditUser: function () {
-      this.editMode = true;
+    toggleEditUser: function () {
+      this.editMode = !this.editMode;
+      console.log(this.user);
     },
     setFile: function (event) {
       if (event.target.files) {
@@ -247,20 +240,18 @@ export default {
     },
     editUser: function () {
       var formData = new FormData();
-      formData.append("name", this.editUserParams.name);
-      formData.append("username", this.editUserParams.username);
-      formData.append("email", this.editUserParams.email);
-      if (this.editUserParams.image) {
-        formData.append("image", this.editUserParams.image);
-      }
-      if (this.editUserParams.phone_number) {
-        formData.append("phone_number", this.editUserParams.phone_number);
+      formData.append("name", this.user.name);
+      formData.append("username", this.user.username);
+      formData.append("email", this.user.email);
+      formData.append("phone_number", this.user.phone_number);
+      if (this.user.image) {
+        formData.append("image", this.user.image);
       }
 
       axios
         .patch(`/users/${this.$route.params.id}`, formData)
         .then((response) => {
-          this.user.image = response.data.image;
+          this.user = response.data;
           this.$parent.flashMessage = "Your details have been updated.";
           this.editMode = false;
         })

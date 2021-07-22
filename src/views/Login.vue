@@ -55,6 +55,13 @@
           <router-link to="/signup">Sign up</router-link>
           now.
         </p>
+        <p class="text-center space-top">
+          To test out the app before signing up, you can use these credentials:
+          <br />
+          email: kat@gmail.com
+          <br />
+          password: password1234
+        </p>
       </div>
     </div>
   </div>

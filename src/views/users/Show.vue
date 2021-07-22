@@ -308,9 +308,10 @@ export default {
       this.newFriendParams.recipient_id = this.user.id;
       axios
         .post("/friendships", this.newFriendParams)
-        .then(() => {
+        .then((response) => {
           this.$parent.flashMessage = "Friend request sent.";
           this.$router.push("/users");
+          console.log(response.data);
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
